@@ -2,26 +2,10 @@
 {
     abstract public class BaseStatusEffect : IProcessable
     {
-        private static int _nextID = 99999;
-        private static int _nextGroupID = -1;
-        private int _uID = 0;
+        private ulong _uID = 0;
         protected IEffectable _target;
         protected bool _activeEffect;
         protected bool _negative;
-
-        /// <summary>
-        /// Available internally to all child classes for assigning unique group IDs
-        /// _nextGroupID will increment each time it is accessed through this to ensure no
-        /// 2 IDs are ever the same.
-        /// </summary>
-        protected int NextGroupID
-        {
-            get
-            {
-                _nextGroupID++;
-                return _nextGroupID;
-            }
-        }
 
         /// <summary>
         /// Provides access to each status effect's group ID (shared among all instances of 
@@ -51,17 +35,9 @@
         /// on the off chance there was an error and a uID did not get assigned, 
         /// this will assign one before an attempt to access it is made.
         /// </summary>
-        public int Unique_ID
+        public ulong Unique_ID
         {
-            get
-            {
-                if ( _uID == 0 )
-                {
-                    _nextID++;
-                    _uID = _nextID;
-                }
-                return _uID;
-            }
+            get { return _uID; }
         }
 
         /// <summary>
@@ -70,8 +46,7 @@
         /// </summary>
         protected BaseStatusEffect()
         {
-            _nextID++;
-            _uID = _nextID;
+            _uID = UniqueIDGenerator.NextID;
         }
 
         /// <summary>

@@ -63,13 +63,12 @@ namespace SticksAndStones.Models.Moves.GameComponents
             //target wasn't found
             return GameError.MOVE_TARGET_NOT_FOUND;
         }
-        virtual public GameError VerifyValidMove()
+        /// <summary>
+        /// Indicates if the move is valid or not
+        /// </summary>
+        virtual public bool ValidMove
         {
-            //check if player has enough power to perform move
-            if (_moveExecutioner.)
-            {
-
-            }
+            get { return (_moveExecutioner.Power - _moveCost >= 0); }
         }
     }
 }
