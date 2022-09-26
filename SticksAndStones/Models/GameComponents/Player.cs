@@ -6,7 +6,7 @@ namespace SticksAndStones.Models.GameComponents
 {
     public class Player : IEffectable, IProcessable
     {
-        protected int _id;
+        protected ulong _id;
         protected string _name;
         protected int _health;
         protected int _power;
@@ -22,7 +22,7 @@ namespace SticksAndStones.Models.GameComponents
         /// Unique player ID loaded from thier user account and used internally to identify
         /// players in the battlefield.
         /// </summary>
-        public int Id 
+        public ulong Id 
         { 
             get { return _id; }  
         }
