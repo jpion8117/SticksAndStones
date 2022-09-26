@@ -16,13 +16,14 @@ namespace SticksAndStones.Models.GameComponents
         protected int _maxPower;
         protected int _decay;
         protected bool _alive;
+        protected int _processPriority;
         protected List<BaseStatusEffect> _statusEffects;
 
         /// <summary>
         /// Unique player ID loaded from thier user account and used internally to identify
         /// players in the battlefield.
         /// </summary>
-        public ulong Id 
+        public ulong UniqueID 
         { 
             get { return _id; }  
         }
@@ -71,6 +72,13 @@ namespace SticksAndStones.Models.GameComponents
             get { return _power; }
         }
 
+        public bool Completed { get { return false; } } //the player will remain in the process queue as
+                                                        //long as the game is going. This is to ensure
+                                                        //players who are revived will remain in the
+                                                        //queue
+        public int Priority { get { return 100; } } //effects and other things that may effect
+                                                    //player health need to process first
+
         public GameError addEffect(BaseStatusEffect effect)
         {
             foreach (BaseStatusEffect playerStatus in _statusEffects)
@@ -85,9 +93,11 @@ namespace SticksAndStones.Models.GameComponents
             return GameError.SUCCESS;
         }
 
-        public GameError ProcessLoop()
+        public GameError ExecuteAction()
         {
-            //player specific game processing here
+            if(_health <= 0)
+                _alive = false;
+
             return GameError.SUCCESS;
         }
 
@@ -108,7 +118,7 @@ namespace SticksAndStones.Models.GameComponents
         {
             foreach (BaseStatusEffect playerEffect in _statusEffects)
             {
-                if(playerEffect.Unique_ID == effect.Unique_ID)
+                if(playerEffect.UniqueID == effect.UniqueID)
                 {
                     playerEffect.Cure();
                     return GameError.SUCCESS;

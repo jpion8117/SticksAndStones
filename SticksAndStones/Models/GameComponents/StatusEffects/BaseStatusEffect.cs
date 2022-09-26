@@ -23,22 +23,15 @@
         }
 
         /// <summary>
-        /// Marks if the effect is currently active or if it is deactive and needs to be 
-        /// cleared.
-        /// </summary>
-        public bool IsActiveEffect
-        {
-            get { return _activeEffect; }
-        }
-
-        /// <summary>
         /// on the off chance there was an error and a uID did not get assigned, 
         /// this will assign one before an attempt to access it is made.
         /// </summary>
-        public ulong Unique_ID
+        public ulong UniqueID
         {
             get { return _uID; }
         }
+
+        public bool Completed { get { return !_activeEffect; } } //true when effect marked inactive
 
         /// <summary>
         /// this constructor has 1 job, make sure every status effect instanciated
@@ -64,6 +57,6 @@
         /// <param name="effect">Incomming status effect</param>
         public abstract GameError StackEffect(BaseStatusEffect effect);
 
-        public abstract GameError ProcessLoop();
+        public abstract GameError ExecuteAction();
     }
 }
