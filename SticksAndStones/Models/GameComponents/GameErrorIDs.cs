@@ -59,6 +59,26 @@
         /// <summary>
         /// Used by IEffectable to indicate an effect that was being searched for was not found
         /// </summary>
-        IEFFECTABLE_EFFECT_NOT_FOUND
+        IEFFECTABLE_EFFECT_NOT_FOUND,
+
+        /// <summary>
+        /// Used to indicate an ID was not found when searching a list by UniqueID.
+        /// </summary>
+        GENERAL_UNIQUE_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Used when adding something to a list to indicate it already exists within that list
+        /// </summary>
+        GENERAL_ALREADY_IN_QUEUE,
+
+        /// <summary>
+        /// Sent by the lobby turn processor when all players on team B are dead
+        /// </summary>
+        LOBBY_TEAM_A_WINS,
+
+        /// <summary>
+        /// Sent by the lobby turn processor when all players on team A are dead
+        /// </summary>
+        LOBBY_TEAM_B_WINS
     }
 }
