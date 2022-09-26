@@ -3,6 +3,7 @@
     public class UniqueIDGenerator
     {
         static private ulong _idPool = 0;
+        static public readonly ulong RESERVED_FOR_LOBBY = 99999;
         
         /// <summary>
         /// Gets the next ID queued up in the ID Pool and queues up the next one. 
@@ -13,6 +14,11 @@
             get
             {
                 ulong uID = _idPool;
+                if (uID == RESERVED_FOR_LOBBY)
+                {
+                    _idPool++;
+                    uID = _idPool;
+                }
                 _idPool++;
                 return uID;
             }
