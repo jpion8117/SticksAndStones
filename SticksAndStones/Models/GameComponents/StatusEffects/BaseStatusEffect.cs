@@ -33,6 +33,8 @@
 
         public bool Completed { get { return !_activeEffect; } } //true when effect marked inactive
 
+        public int Priority { get { return 2; } }
+
         /// <summary>
         /// this constructor has 1 job, make sure every status effect instanciated
         /// has a unique ID assigned at runtime to keep track of them
