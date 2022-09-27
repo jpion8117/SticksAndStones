@@ -2,7 +2,7 @@
 
 namespace SticksAndStones.Models.GameComponents
 {
-    public class Lobby
+    public class Lobby : IIdentifiable
     {
         private List<Player> _aTeam;
         private List<Player> _bTeam;
@@ -17,7 +17,7 @@ namespace SticksAndStones.Models.GameComponents
         /// <summary>
         /// gets the lobby's uniqueID.
         /// </summary>
-        ulong UniqueID { get { return _uID; } }
+        public ulong UniqueID { get { return _uID; } }
 
         /// <summary>
         /// Indicates which round the game is currently on.
@@ -42,6 +42,10 @@ namespace SticksAndStones.Models.GameComponents
         {
             get { return (uint)(_aTeam.Count + _bTeam.Count); }
         }
+
+        public string Type { get { return "Lobby"; } }
+
+        public object IdentifiableObject { get { return this; } }
 
         /// <summary>
         /// Processes all data between turns including: Applying any status effects, 

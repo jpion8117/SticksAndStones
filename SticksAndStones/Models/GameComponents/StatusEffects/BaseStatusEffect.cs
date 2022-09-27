@@ -22,14 +22,12 @@
             get { return _negative; }
         }
 
-        /// <summary>
-        /// on the off chance there was an error and a uID did not get assigned, 
-        /// this will assign one before an attempt to access it is made.
-        /// </summary>
         public ulong UniqueID
         {
             get { return _uID; }
         }
+
+        public object IdentifiableObject { get { return this; } }
 
         public bool Completed { get { return !_activeEffect; } } //true when effect marked inactive
 
@@ -41,7 +39,7 @@
         /// </summary>
         protected BaseStatusEffect()
         {
-            _uID = UniqueIDGenerator.NextID;
+            _uID = UniqueIDGenerator.GetID(this);
         }
 
         /// <summary>
@@ -60,5 +58,7 @@
         public abstract GameError StackEffect(BaseStatusEffect effect);
 
         public abstract GameError ExecuteAction();
+
+        public abstract string Type { get; }
     }
 }

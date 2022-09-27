@@ -77,7 +77,12 @@ namespace SticksAndStones.Models.GameComponents
                                                         //players who are revived will remain in the
                                                         //queue
         public int Priority { get { return 100; } } //effects and other things that may effect
-                                                    //player health need to process first
+
+        public string Type { get { return "Player"; } }
+
+        public object IdentifiableObject { get { return this; } }
+
+        //player health need to process first
 
         public GameError addEffect(BaseStatusEffect effect)
         {

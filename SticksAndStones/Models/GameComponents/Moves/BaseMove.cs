@@ -80,10 +80,15 @@ namespace SticksAndStones.Models.Moves.GameComponents
 
         public ulong UniqueID { get { return _uID; } }
 
+        public object IdentifiableObject { get { return this; } }
         public bool Completed
         {
             get { return _moveExecuted; }
             set { _moveExecuted = value; }
         }
+
+        abstract public string Type { get; }
+
+
     }
 }
