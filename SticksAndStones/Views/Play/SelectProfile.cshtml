@@ -1,0 +1,27 @@
+﻿@model SticksAndStones.Models.DAL.User
+@{
+    ViewData["Title"] = "Select Profile";
+}
+<h2>Select a profile...</h2>
+<form asp-action="Index" method="post">
+    <div class="form-group">
+        <label for="Profile" asp-for="UserID">Profile: </label>
+        <select id="Profile" asp-for=UserID>
+            <option value="">- Select Your Profile -</option>
+            @foreach (var user in ViewBag.InactiveProfiles)
+            {
+                <option value=@user.UserID>@user.UserName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary rounded-pill pl-2 pr-2">Play</button>
+</form>
+<div id="ProfileStats">
+    <!-- Not sure how to do this, would like to display player stats here when selecting profile -->
+    <script>
+        $("#Profile").on("change", function()
+        {
+            $("ProfileStats").html("DataChanged...");
+        });
+    </script>
+</div>

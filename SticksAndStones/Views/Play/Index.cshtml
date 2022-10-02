@@ -1,0 +1,13 @@
+﻿@model SticksAndStones.Models.DAL.User
+@{
+    ViewData["Title"] = "Play Sticks and Stones!";
+}
+<div class="jumbotron">
+    <h2>@Model.UserName</h2><br />
+    <h4>Wins:@Model.GamesWon - Losses:@Model.GamesLost - 
+        Played:@Model.GamesPlayed - Win Rate:@Model.WinRate</h4>
+</div>
+<div id="GameDisplay"> <!-- Game content displays here --> </div>
+<form id="GameControls">
+    <!-- Game controls go here -->
+</form>
