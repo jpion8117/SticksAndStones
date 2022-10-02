@@ -19,11 +19,18 @@ namespace SticksAndStones.Models.GameComponents
             return ID;
         }
 
-        static public IIdentifiable? GetIdentifiableByID(ulong ID)
+        /// <summary>
+        /// Search for an 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        static public IIdentifiable? GetIdentifiableByID(ulong uID)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         {
             foreach (IIdentifiable identifiable in _identifiables)
             {
-                if(identifiable.UniqueID == ID)
+                if(identifiable.UniqueID == uID)
                     return identifiable;
             }
 

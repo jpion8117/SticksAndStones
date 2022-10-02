@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SticksAndStones.Models.GameComponents
 {
-    public class Player : IEffectable, IProcessable
+    public class CharacterBase : IEffectable, IProcessable
     {
         protected ulong _id;
         protected string _name;

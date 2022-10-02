@@ -5,10 +5,10 @@ namespace SticksAndStones.Models.Moves.GameComponents
 {
     abstract public class BaseMove : IProcessable
     {
-        protected List<Player> _targets; //all players that will be effected by this move
+        protected List<CharacterBase> _targets; //all players that will be effected by this move
         protected int _maxTargets; //the number of players this move can effect
         protected int _moveCost; //how much power the move consumes
-        protected Player _moveExecutioner; //defines the player who is performing the move
+        protected CharacterBase _moveExecutioner; //defines the player who is performing the move
         protected ulong _uID;
         protected bool _moveExecuted = false;
 
@@ -17,7 +17,7 @@ namespace SticksAndStones.Models.Moves.GameComponents
         /// </summary>
         /// <param name="target">Target player you are attempting to add</param>
         /// <returns>Either a success code or an error that can get fed back to user or system</returns>
-        virtual public GameError AddTarget(Player target)
+        virtual public GameError AddTarget(CharacterBase target)
         {
             //check if player has already been targeted
             foreach (var player in _targets)
@@ -43,7 +43,7 @@ namespace SticksAndStones.Models.Moves.GameComponents
         /// </summary>
         /// <param name="target">Target to be removed</param>
         /// <returns>Either a success code or an error that can get fed back to user or system</returns>
-        virtual public GameError RemoveTarget(Player target)
+        virtual public GameError RemoveTarget(CharacterBase target)
         {
             //check if targets list is empty
             if (_targets.Count == 0)

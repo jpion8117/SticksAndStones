@@ -4,14 +4,15 @@ namespace SticksAndStones.Models.GameComponents
 {
     public class Lobby : IIdentifiable
     {
-        private List<Player> _aTeam;
-        private List<Player> _bTeam;
-        private List<Player> _activeTeam;
-        private List<Player> _inactiveTeam;
-        private Player _currentPlayer;
+        private List<CharacterBase> _aParty;
+        private List<CharacterBase> _bParty;
+        private List<CharacterBase> _activeParty;
+        private List<CharacterBase> _inactiveParty;
+        private CharacterBase _currentPlayer;
         private uint _roundNumber;
         private uint _turnNumber;
         private ulong _uID;
+        private uint _partySize;
         private List<IProcessable> _processables;
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace SticksAndStones.Models.GameComponents
         /// </summary>
         public uint TotalTurns
         {
-            get { return (uint)(_aTeam.Count + _bTeam.Count); }
+            get { return (uint)(_aParty.Count + _bParty.Count); }
         }
 
         public string Type { get { return "Lobby"; } }
@@ -79,7 +80,7 @@ namespace SticksAndStones.Models.GameComponents
 
             //check if all players on the inactive team are dead
             bool activeTeamWins = true;
-            foreach (Player player in _inactiveTeam)
+            foreach (CharacterBase player in _inactiveParty)
             {
                 //if at least one team member is still alive, the game continues
                 if (player.IsAlive)
@@ -90,18 +91,30 @@ namespace SticksAndStones.Models.GameComponents
             }
             if (activeTeamWins)
             {
-
+                //process end of game
             }
 
             //incriment the turn number
             _turnNumber++;
 
-            //check if all players have played and switch teams
-            if(_activeTeam.Count == _turnNumber)
+            //check if all players have played then switch teams and incriment the round counter
+            if(_activeParty.Count == _turnNumber)
             {
-                List<Player> currentlyActiveTeam = _activeTeam;
-                _activeTeam = _inactiveTeam;
-                _inactiveTeam = currentlyActiveTeam;
+                //temp storage of active team
+                List<CharacterBase> currentlyActiveTeam = _activeParty;
+                
+                //assign inactive party to active
+                _activeParty = _inactiveParty;
+
+                //assign former active party to inactive party
+                _inactiveParty = currentlyActiveTeam;
+
+                //reset turn number
+                _turnNumber = 0;
+
+                //if party a is now the active party, incriment round number.
+                if (_aParty[0].UniqueID == _activeParty[0].UniqueID)
+                    _roundNumber++;
             }
 
             return results;
