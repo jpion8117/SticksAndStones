@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SticksAndStones.Models
+namespace SticksAndStones.Models.DAL
 {
     public class User
     {
