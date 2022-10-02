@@ -16,14 +16,16 @@ namespace SticksAndStones.Models.DAL
                         UserID = 1,
                         UserName = "jP",
                         GamesPlayed = 10,
-                        GamesWon = 6
+                        GamesWon = 6,
+                        IsActive = false
                     },
                     new User
                     {
                         UserID = 2,
                         UserName = "Max",
                         GamesPlayed = 10,
-                        GamesWon = 4
+                        GamesWon = 4,
+                        IsActive = false
                     }
                 );
         }

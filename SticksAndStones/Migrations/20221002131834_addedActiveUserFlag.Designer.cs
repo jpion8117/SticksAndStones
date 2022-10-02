@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SticksAndStones.Models.DAL;
 
 namespace SticksAndStones.Migrations
 {
     [DbContext(typeof(PlayerDataContext))]
-    partial class PlayerDataContextModelSnapshot : ModelSnapshot
+    [Migration("20221002131834_addedActiveUserFlag")]
+    partial class addedActiveUserFlag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -28,6 +28,7 @@
                 <input asp-for="GamesWon" class="form-control" />
                 <span asp-validation-for="GamesWon" class="text-danger"></span>
             </div>
+            <input asp-for="IsActive" type="hidden" class="form-control" value = "false" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
