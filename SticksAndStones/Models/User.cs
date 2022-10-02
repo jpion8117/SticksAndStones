@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SticksAndStones.Models
 {
@@ -12,6 +13,6 @@ namespace SticksAndStones.Models
         public int GamesPlayed { get; set; }
         public int GamesWon { get; set; }
         public int GamesLost { get { return GamesPlayed - GamesWon; } }
-        public double WinRate { get { return ((double)GamesWon / (double)GamesPlayed) * 100; } }
+        public double WinRate { get { return Math.Round(((double)GamesWon / (double)GamesPlayed) * 100, 2); } }
     }
 }
