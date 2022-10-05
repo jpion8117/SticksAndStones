@@ -2,26 +2,41 @@
 @{
     ViewData["Title"] = "Select Profile";
 }
-<h2>Select a profile...</h2>
-<form asp-action="Index" method="post">
-    <div class="form-group">
-        <label for="Profile" asp-for="UserID">Profile: </label>
-        <select id="Profile" asp-for=UserID>
-            <option value="">- Select Your Profile -</option>
-            @foreach (var user in ViewBag.InactiveProfiles)
+<div class="row">
+    <h2 class="col-md-12">Select a profile...</h2>
+    <form asp-action="Index" method="post" class="col-md-6">
+        <div class="form-group">
+            <label for="Profile" asp-for="UserID">Profile: </label>
+            <select id="Profile" asp-for=UserID>
+                <option value="">- Select Your Profile -</option>
+                @foreach (var user in ViewBag.InactiveProfiles)
+                {
+                    <option value=@user.UserID>@user.UserName</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary rounded-pill pl-2 pr-2">Play</button>
+    </form>
+    <div id="ProfileStats" class="col-md-6 bg-secondary text-center text-light rounded">
+        <script>
+            $("#Profile").on("change", function()
             {
-                <option value=@user.UserID>@user.UserName</option>
-            }
-        </select>
+                var ID = $("#Profile").val();
+                var URL = '@Url.Action("GetUserInfo", "Play")';
+                $.post(URL, {id:ID}, function(data)
+                {
+                    var htmlSoup = 
+                    "<h5>" + data.userName + "</h5>" +
+                    "<table>" +
+                        "<tr><td>Played</td><td>" + data.gamesPlayed + "</td></tr>" +
+                        "<tr><td>Won</td><td>" + data.gamesWon + "</td></tr>" +
+                        "<tr><td>Lost</td><td>" + data.gamesLost + "</td></tr>" +
+                        "<tr><td>WinRate</td><td>" + data.winRate + "%</td></tr>" +
+                    "</table>";
+
+                    $("#ProfileStats").html(htmlSoup);
+                });
+            });
+        </script>
     </div>
-    <button type="submit" class="btn btn-primary rounded-pill pl-2 pr-2">Play</button>
-</form>
-<div id="ProfileStats">
-    <!-- Not sure how to do this, would like to display player stats here when selecting profile -->
-    <script>
-        $("#Profile").on("change", function()
-        {
-            $("ProfileStats").html("DataChanged...");
-        });
-    </script>
 </div>

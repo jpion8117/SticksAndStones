@@ -4,16 +4,18 @@ namespace SticksAndStones.Models.GameComponents
 {
     public class Lobby : IIdentifiable
     {
-        private List<CharacterBase> _aParty;
-        private List<CharacterBase> _bParty;
-        private List<CharacterBase> _activeParty;
-        private List<CharacterBase> _inactiveParty;
-        private CharacterBase _currentPlayer;
+        private Party _aParty;
+        private Party _bParty;
+        private Party _activeParty;
+        private Party _inactiveParty;
         private uint _roundNumber;
         private uint _turnNumber;
         private ulong _uID;
         private uint _partySize;
         private List<IProcessable> _processables;
+
+        private static List<Lobby> _activeLobbies = new List<Lobby>();
+
 
         /// <summary>
         /// gets the lobby's uniqueID.
@@ -41,9 +43,23 @@ namespace SticksAndStones.Models.GameComponents
         /// </summary>
         public uint TotalTurns
         {
-            get { return (uint)(_aParty.Count + _bParty.Count); }
-        }
+            get { return (uint)(_aParty.Characters.Count + _bParty.Characters.Count); }
 
+
+        public string PlayerAName
+        {
+            get
+            {
+                return _aParty.User.UserName;
+            }
+        }
+        public string PlayerBName
+        {
+            get
+            {
+                return _bParty.User.UserName;
+            }
+        }
         public string Type { get { return "Lobby"; } }
 
         public object IdentifiableObject { get { return this; } }
@@ -80,7 +96,7 @@ namespace SticksAndStones.Models.GameComponents
 
             //check if all players on the inactive team are dead
             bool activeTeamWins = true;
-            foreach (CharacterBase player in _inactiveParty)
+            foreach (CharacterBase player in _inactiveParty.Characters)
             {
                 //if at least one team member is still alive, the game continues
                 if (player.IsAlive)
@@ -98,10 +114,10 @@ namespace SticksAndStones.Models.GameComponents
             _turnNumber++;
 
             //check if all players have played then switch teams and incriment the round counter
-            if(_activeParty.Count == _turnNumber)
+            if(_activeParty.Characters.Count == _turnNumber)
             {
                 //temp storage of active team
-                List<CharacterBase> currentlyActiveTeam = _activeParty;
+                Party currentlyActiveTeam = _activeParty;
                 
                 //assign inactive party to active
                 _activeParty = _inactiveParty;
@@ -113,7 +129,7 @@ namespace SticksAndStones.Models.GameComponents
                 _turnNumber = 0;
 
                 //if party a is now the active party, incriment round number.
-                if (_aParty[0].UniqueID == _activeParty[0].UniqueID)
+                if (_aParty.User.UserID == _activeParty.User.UserID)
                     _roundNumber++;
             }
 
@@ -149,6 +165,18 @@ namespace SticksAndStones.Models.GameComponents
             }
 
             return GameError.GENERAL_UNIQUE_ID_NOT_FOUND;
+        }
+        static public Lobby GetLobbyByID(ulong id)
+        {
+            foreach (Lobby lobby in _activeLobbies)
+            {
+                if(lobby.UniqueID == id)
+                {
+                    return lobby;
+                }
+            }
+
+            return null;
         }
     }
 }

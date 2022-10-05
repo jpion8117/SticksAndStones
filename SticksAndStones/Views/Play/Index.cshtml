@@ -7,7 +7,19 @@
     <h4>Wins:@Model.GamesWon - Losses:@Model.GamesLost - 
         Played:@Model.GamesPlayed - Win Rate:@Model.WinRate</h4>
 </div>
-<div id="GameDisplay"> <!-- Game content displays here --> </div>
-<form id="GameControls">
-    <!-- Game controls go here -->
-</form>
+<script>
+    $(document).ready(function()
+    {
+        console.log("document ready");
+        $(window).on("load", function()
+        {
+            var URL = '@Url.Action("LockUser","Play")';
+            $.post(URL,{id:'@Model.UserID'});
+        });
+        $(window).on("beforeunload", function()
+        {
+            var URL = '@Url.Action("unlockUser","Play")';
+            $.post(URL,{id:'@Model.UserID'});
+        });
+    });
+</script>

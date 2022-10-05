@@ -1,0 +1,28 @@
+﻿@model SticksAndStones.Models.DAL.User
+@{
+    ViewBag["Title"] = "Select a lobby to join or create a new one...";
+}
+<h2>Select a lobby...</h2>
+<form method="post" asp-action="SticksAndStones" asp-controller="Play">
+    <select id="ActiveLobbies">
+        <option>*** Make Selection ***</option>
+        <option value="CreateNew">Create New Lobby</option>
+    </select>
+    <button id="JoinBtn" type="submit">Join</button>
+</form>
+<script>
+    $(document).ready(function()
+    {
+        $("#ActiveLobbies").on("focus", function(
+        {
+            console.log("focus event fired");
+        }));
+        $("#ActiveLobbies").on("blur",function()
+        {
+            console.log("blur event fired");
+        });
+    });
+    //add listener that checks for active lobbies and adds them to the list
+
+    //add listener that modifys for for lobby creation.
+</script>
