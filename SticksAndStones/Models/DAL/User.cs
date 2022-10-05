@@ -13,7 +13,14 @@ namespace SticksAndStones.Models.DAL
         public int GamesPlayed { get; set; }
         public int GamesWon { get; set; }
         public int GamesLost { get { return GamesPlayed - GamesWon; } }
-        public double WinRate { get { return Math.Round(((double)GamesWon / (double)GamesPlayed) * 100, 2); } }
+        public double WinRate 
+        { 
+            get 
+            {
+                if (GamesPlayed == 0) return 0;
+                return Math.Round(((double)GamesWon / (double)GamesPlayed) * 100, 2); 
+            } 
+        }
         [Required]
         public bool IsActive { get; set; }
     }

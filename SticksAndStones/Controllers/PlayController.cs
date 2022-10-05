@@ -41,5 +41,33 @@ namespace SticksAndStones.Controllers
             ViewBag.InactiveProfiles = users;
             return View(new User());
         }
+        [HttpPost]
+        public JsonResult GetUserInfo(int id)
+        {
+            User user = _playerData.Users.Find(id);
+            return Json(user);
+        }
+        [HttpPost]
+        public void LockUser(int id)
+        {
+            User u = _playerData.Users.Find(id);
+            u.IsActive = true;
+            _playerData.Users.Update(u);
+            _playerData.SaveChanges();
+        }
+        [HttpPost]
+        public void unlockUser(int id)
+        {
+            User u = _playerData.Users.Find(id);
+            u.IsActive = false;
+            _playerData.Users.Update(u);
+            _playerData.SaveChanges();
+        }
+        [HttpPost]
+        public JsonResult CheckIn(ulong lobbyID)
+        {
+            Lobby lobby = Lobby.GetLobbyByID(lobbyID);
+            return Json(lobby);
+        }
     }
 }
