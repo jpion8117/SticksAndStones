@@ -1,20 +1,23 @@
 ﻿using SticksAndStones.Models.DAL;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace SticksAndStones.Models.GameComponents
 {
     public class Party
     {
         private User _user;
-        private List<CharacterBase> _characters;
+        private CharacterBase[] _members;
 
 
         public User User { get { return _user; } }
-        public List<CharacterBase> Characters { get { return _characters; } }
-        public Party(User user, List<CharacterBase> characters)
+        public CharacterBase[] Members { get { return _members; } }
+        public Party(User user, CharacterBase[] members)
         {
             _user = user;
-            _characters = characters;
+            _members = members;
+        }
+        public Party(string jsonOptions)
+        {
         }
     }
 }

@@ -1,25 +1,16 @@
-﻿@model SticksAndStones.Models.DAL.User
+﻿
 @{
     ViewData["Title"] = "Play Sticks and Stones!";
 }
-<div class="jumbotron">
-    <h2>@Model.UserName</h2><br />
-    <h4>Wins:@Model.GamesWon - Losses:@Model.GamesLost - 
-        Played:@Model.GamesPlayed - Win Rate:@Model.WinRate</h4>
-</div>
+<noscript class="jumbotron">
+    <p>
+        If you are reading this message, you are attempting to play Sticks and Stones with JavaScript disabled
+        Please enable JavaScript in your browser and reload this page to begin playing.
+    </p>
+</noscript>
 <script>
     $(document).ready(function()
     {
-        console.log("document ready");
-        $(window).on("load", function()
-        {
-            var URL = '@Url.Action("LockUser","Play")';
-            $.post(URL,{id:'@Model.UserID'});
-        });
-        $(window).on("beforeunload", function()
-        {
-            var URL = '@Url.Action("unlockUser","Play")';
-            $.post(URL,{id:'@Model.UserID'});
-        });
+        document.location = '@Url.Action("SelectProfile", "Play")';
     });
 </script>

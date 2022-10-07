@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SticksAndStones.Models.GameComponents
 {
@@ -38,12 +39,28 @@ namespace SticksAndStones.Models.GameComponents
             get { return _turnNumber; }
         }
 
+        public uint PartySize
+        {
+            get { return _partySize; }
+            set 
+            {
+                //make sure party size is valid
+                if(value < 2 || value > 4)
+                {
+                    throw new ArgumentException("Value of 'PartySize' must be between 2 and 4");
+                }
+
+                _partySize = value; 
+            }
+        }
+
         /// <summary>
         /// Indicates the total number of turns in a given round
         /// </summary>
         public uint TotalTurns
         {
-            get { return (uint)(_aParty.Characters.Count + _bParty.Characters.Count); }
+            get { return (uint)(_aParty.Members.Count + _bParty.Members.Count); }
+        }
 
 
         public string PlayerAName
@@ -96,7 +113,7 @@ namespace SticksAndStones.Models.GameComponents
 
             //check if all players on the inactive team are dead
             bool activeTeamWins = true;
-            foreach (CharacterBase player in _inactiveParty.Characters)
+            foreach (CharacterBase player in _inactiveParty.Members)
             {
                 //if at least one team member is still alive, the game continues
                 if (player.IsAlive)
@@ -114,7 +131,7 @@ namespace SticksAndStones.Models.GameComponents
             _turnNumber++;
 
             //check if all players have played then switch teams and incriment the round counter
-            if(_activeParty.Characters.Count == _turnNumber)
+            if(_activeParty.Members.Count == _turnNumber)
             {
                 //temp storage of active team
                 Party currentlyActiveTeam = _activeParty;

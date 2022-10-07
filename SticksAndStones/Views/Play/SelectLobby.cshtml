@@ -1,25 +1,73 @@
-﻿@model SticksAndStones.Models.DAL.User
+﻿@model SticksAndStones.Models.GameComponents.Lobby
 @{
-    ViewBag["Title"] = "Select a lobby to join or create a new one...";
+    ViewData["Title"] = "Select a lobby to join or create a new one...";
 }
-<h2>Select a lobby...</h2>
-<form method="post" asp-action="SticksAndStones" asp-controller="Play">
-    <select id="ActiveLobbies">
-        <option>*** Make Selection ***</option>
-        <option value="CreateNew">Create New Lobby</option>
-    </select>
+<form id="LobbySelectForm" class="form-inline">
+    <div id="LobbySelect">
+        <h2>Select a lobby</h2>
+        <div class="form-group">
+            <label for="ActiveLobbies">Available Lobbies: </label>
+            <select id="ActiveLobbies">
+                <option>*** Make Selection ***</option>
+                <option value="CreateNew">Create New Lobby</option>
+            </select>
+        </div>
+    </div>
+    <div id="NewLobbyOptions" class="hide">
+        <h2>New Lobby Settings</h2>
+        <div class="form-group">
+            <label for="PartySize">Select Party Size: </label>
+            <input id="PartySize" type="range" min="2" max="4" />
+        </div>
+    </div>
+    <div id="PartySettings" class="hide">
+        <h2>Starting Lineup</h2>
+        <div id="ch1Selection" class="form-group">
+            <label for="ch1">Party Member 1:</label>
+            <select id="ch1" class="chSelect"></select>
+        </div>
+        <div id="ch2Selection" class="hide form-group">
+            <label for="ch2">Party Member 1:</label>
+            <select id="ch2" class="chSelect"></select>
+        </div>
+        <div id="ch3Selection" class="hide form-group">
+            <label for="ch3">Party Member 1:</label>
+            <select id="ch3" class="chSelect"></select>
+        </div>
+        <div id="ch3Selection" class="hide form-group">
+            <label for="ch3">Party Member 1:</label>
+            <select id="ch3" class="chSelect"></select>
+        </div>
+    </div>
     <button id="JoinBtn" type="submit">Join</button>
 </form>
 <script>
     $(document).ready(function()
     {
-        $("#ActiveLobbies").on("focus", function(
+        var charactorsAvailable = ["tank", "healer", "mage", "knight", "commander", "glassCannon"];
+        var party = { userID:@ViewBag.User.UserID };
+        console.log("document loaded");
+        console.log($("#ActiveLobbies").val());
+        $("ActiveLobbies").on("mouseover", function()
         {
-            console.log("focus event fired");
-        }));
-        $("#ActiveLobbies").on("blur",function()
+            console.log("focus event");
+        });
+        $("#ActiveLobbies").on("change",function()
         {
-            console.log("blur event fired");
+            //check selection
+            var selection = $("#ActiveLobbies").val();
+
+            if(selection === "CreateNew")
+            {
+                //change the text on the join button to better reflect the action
+                $("#JoinBtn").text("Create");
+
+                
+            }
+            else
+            {
+                $("#JoinBtn").text("Join");
+            }
         });
     });
     //add listener that checks for active lobbies and adds them to the list

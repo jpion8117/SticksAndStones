@@ -41,6 +41,25 @@ namespace SticksAndStones.Controllers
             ViewBag.InactiveProfiles = users;
             return View(new User());
         }
+        public IActionResult SelectLobby(int userID)
+        {
+            //get the user profile from the database
+            User user = _playerData.Users.Find(userID);
+
+            //check if user wasn't found or if user is already in use
+            if (user == null || user.IsActive)
+            {
+                return RedirectToAction("SelectProfile", "Play");
+            }
+
+            return View(user);
+        }
+        [HttpPost]
+        public IActionResult SticksAndStones(ulong lobbyID)
+        {
+            Lobby lobby = Lobby.GetLobbyByID(lobbyID);
+            return View(lobby);
+        }
         [HttpPost]
         public JsonResult GetUserInfo(int id)
         {
@@ -68,6 +87,11 @@ namespace SticksAndStones.Controllers
         {
             Lobby lobby = Lobby.GetLobbyByID(lobbyID);
             return Json(lobby);
+        }
+        [HttpPost]
+        public JsonResult GetLobbyInfo(ulong lobbyID)
+        {
+            return Json(Lobby.GetLobbyByID(lobbyID));
         }
     }
 }
