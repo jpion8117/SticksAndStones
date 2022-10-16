@@ -1,9 +1,11 @@
-﻿namespace SticksAndStones.Models.GameComponents.StatusEffects
+﻿using SticksAndStones.Models.GameComponents.Characters;
+
+namespace SticksAndStones.Models.GameComponents.StatusEffects
 {
     abstract public class BaseStatusEffect : IProcessable
     {
         private ulong _uID = 0;
-        protected IEffectable _target;
+        protected CharacterBase _target;
         protected bool _activeEffect;
         protected bool _negative;
 
