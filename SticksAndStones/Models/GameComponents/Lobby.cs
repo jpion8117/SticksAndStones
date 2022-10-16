@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SticksAndStones.Models.GameComponents.Characters;
+using System;
 using System.Collections.Generic;
 
 namespace SticksAndStones.Models.GameComponents
@@ -59,7 +60,7 @@ namespace SticksAndStones.Models.GameComponents
         /// </summary>
         public uint TotalTurns
         {
-            get { return (uint)(_aParty.Members.Count + _bParty.Members.Count); }
+            get { return (uint)(_aParty.Members.Length + _bParty.Members.Length); }
         }
 
 
@@ -131,7 +132,7 @@ namespace SticksAndStones.Models.GameComponents
             _turnNumber++;
 
             //check if all players have played then switch teams and incriment the round counter
-            if(_activeParty.Members.Count == _turnNumber)
+            if(_activeParty.Members.Length == _turnNumber)
             {
                 //temp storage of active team
                 Party currentlyActiveTeam = _activeParty;

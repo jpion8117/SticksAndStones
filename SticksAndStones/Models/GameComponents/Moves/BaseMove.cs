@@ -1,7 +1,8 @@
 ﻿using SticksAndStones.Models.GameComponents;
+using SticksAndStones.Models.GameComponents.Characters;
 using System.Collections.Generic;
 
-namespace SticksAndStones.Models.Moves.GameComponents
+namespace SticksAndStones.Models.GameComponents.Moves
 {
     abstract public class BaseMove : IProcessable
     {
@@ -11,6 +12,12 @@ namespace SticksAndStones.Models.Moves.GameComponents
         protected CharacterBase _moveExecutioner; //defines the player who is performing the move
         protected ulong _uID;
         protected bool _moveExecuted = false;
+
+        public BaseMove(CharacterBase executioner)
+        {
+            _uID = UniqueIDGenerator.GetID(this);
+            _moveExecutioner = executioner;
+        }
 
         /// <summary>
         /// Adds a target to the move's targets list up to the max number of targets
@@ -38,6 +45,7 @@ namespace SticksAndStones.Models.Moves.GameComponents
             //code can be sent
             return GameError.SUCCESS;
         }
+
         /// <summary>
         /// Removes a target to the move's target list if they are already targeted
         /// </summary>
@@ -66,27 +74,59 @@ namespace SticksAndStones.Models.Moves.GameComponents
             return GameError.MOVE_TARGET_NOT_FOUND;
         }
 
+        /// <summary>
+        /// Checks to see if a character has enough power to perform a requested move
+        /// </summary>
+        /// <param name="executioner">Character performing move</param>
+        /// <returns>True if character has enough power to perform move</returns>
+        public virtual bool CheckIfValidMove(CharacterBase executioner)
+        { 
+            return executioner.Power - _moveCost >= 0; 
+        }
+
+        /// <summary>
+        /// *** Inherited from the IProcessable interface *** Executes any actions of the move on the
+        /// specified targets upon exicution, this can be anything from healing allies to damaging 
+        /// enemies.
+        /// </summary>
+        /// <returns>GameError code indicating either success or an error occured</returns>
         abstract public GameError ExecuteAction();
 
         /// <summary>
-        /// Indicates if the move is valid or not
+        /// *** Inherited from IProcessable interface *** Defines the priority a processable entity will
+        /// exicute at, the higher the number the lower the priority. Note, this should be defined as a 
+        /// fixed value for each object type with moves exicuting with a priority of 1 as they must execute
+        /// first.
         /// </summary>
-        virtual public bool ValidMove
-        {
-            get { return (_moveExecutioner.Power - _moveCost >= 0); }
-        }
-
         public int Priority { get { return 1; } }
-
-        public ulong UniqueID { get { return _uID; } }
-
-        public object IdentifiableObject { get { return this; } }
+        
+        /// <summary>
+        /// *** Inherited from the IProcessable interface *** Used to indicate an entitiy can be purged from 
+        /// an IProcessable queue.
+        /// </summary>
         public bool Completed
         {
             get { return _moveExecuted; }
             set { _moveExecuted = value; }
         }
 
+        /// <summary>
+        /// *** Inherited from the IIdentifiable interface *** Retrieves the identifiable object's unique
+        /// runtime ID.
+        /// </summary>
+        public ulong UniqueID { get { return _uID; } }
+
+        /// <summary>
+        /// *** Inherited from the IIdentifiable interface*** Retrieves the base object from an 
+        /// IIdentifiable object, this can be used with the type property to cast into the correct 
+        /// type and access full functionality if needed.
+        /// </summary>
+        public object IdentifiableObject { get { return this; } }
+
+        /// <summary>
+        /// *** Inherited from the IIdentifiable interface *** String used to identify an IIdentifiable object's
+        /// type for casting purposes if needed.
+        /// </summary>
         abstract public string Type { get; }
 
 
