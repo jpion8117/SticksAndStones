@@ -11,7 +11,7 @@ namespace SticksAndStones.Models.DAL
         public int UserID { get; set; }
         [Required]
         [StringLength(15, ErrorMessage = "Username must not exceed 15 characters.")]
-        [RegularExpression("([a-z]|[A-Z]|[0-3]|_|-|)", ErrorMessage = "User name may only contain letters, number, or " +
+        [RegularExpression("([a-z]|[A-Z]|[0-9]|[_-][^ ]){0,30}", ErrorMessage = "User name may only contain letters, number, or " +
             "the '_' and '-' characters")]
         [DataType(DataType.Text)]
         public string Username { get; set; }
@@ -19,7 +19,7 @@ namespace SticksAndStones.Models.DAL
         [Display(Name = "Real Name")]
         [Column("Name")]
         [StringLength(50, ErrorMessage = "Real name may not exceede 50 characters.")]
-        [RegularExpression("(([a-z]|[A-Z]){3,25} {1}([a-z]|[A-Z]){3,25}", ErrorMessage = "Please provide first and last name " +
+        [RegularExpression("([a-z]|[A-Z]){3,24} {1}([a-z]|[A-Z]){3,24}", ErrorMessage = "Please provide first and last name " +
             "separated by a space.")]
         public string RealName { get; set; }
 
