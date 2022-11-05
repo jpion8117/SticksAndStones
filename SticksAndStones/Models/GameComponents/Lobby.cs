@@ -68,14 +68,14 @@ namespace SticksAndStones.Models.GameComponents
         {
             get
             {
-                return _aParty.User.UserName;
+                return _aParty.User.Username;
             }
         }
         public string PlayerBName
         {
             get
             {
-                return _bParty.User.UserName;
+                return _bParty.User.Username;
             }
         }
         public string Type { get { return "Lobby"; } }

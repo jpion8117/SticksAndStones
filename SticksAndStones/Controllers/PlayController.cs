@@ -29,7 +29,7 @@ namespace SticksAndStones.Controllers
         {
             List<User> users = _playerData.Users
                 .Where(status => !status.IsActive)
-                .OrderBy(user => user.UserName)
+                .OrderBy(user => user.Username)
                 .ToList();
 
             //if no inactive users are available

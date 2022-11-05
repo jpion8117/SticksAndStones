@@ -15,7 +15,7 @@ namespace SticksAndStones.Models.DAL
                     new User
                     {
                         UserID = 1,
-                        UserName = "jP",
+                        Username = "jP",
                         GamesPlayed = 10,
                         GamesWon = 6,
                         IsActive = false
@@ -23,7 +23,7 @@ namespace SticksAndStones.Models.DAL
                     new User
                     {
                         UserID = 2,
-                        UserName = "Max",
+                        Username = "Max",
                         GamesPlayed = 10,
                         GamesWon = 4,
                         IsActive = false
