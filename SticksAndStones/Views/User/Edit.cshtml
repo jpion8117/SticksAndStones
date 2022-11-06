@@ -33,7 +33,11 @@
                 <input asp-for="GamesWon" class="form-control" />
                 <span asp-validation-for="GamesWon" class="text-danger"></span>
             </div>
-            <input asp-for="IsActive" type="hidden" class="form-control" value = "false" />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="hidden" class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

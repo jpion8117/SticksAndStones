@@ -24,15 +24,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="GamesPlayed" class="control-label"></label>
-                <input asp-for="GamesPlayed" class="form-control" value = "0" />
+                <input asp-for="GamesPlayed" class="form-control" />
                 <span asp-validation-for="GamesPlayed" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GamesWon" class="control-label"></label>
-                <input asp-for="GamesWon" class="form-control" value = "0" />
+                <input asp-for="GamesWon" class="form-control" />
                 <span asp-validation-for="GamesWon" class="text-danger"></span>
             </div>
-            <input asp-for="IsActive" type="hidden" class="form-control" value = "false" />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="hidden" class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

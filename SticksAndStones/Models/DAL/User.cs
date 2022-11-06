@@ -40,7 +40,7 @@ namespace SticksAndStones.Models.DAL
             get 
             {
                 if (GamesPlayed == 0) return 0;
-                return Math.Round(((double)GamesWon / (double)GamesPlayed) * 100, 2); 
+                return (double)GamesWon / (double)GamesPlayed; 
             } 
         }
         [Required]

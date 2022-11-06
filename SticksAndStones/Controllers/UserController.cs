@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SticksAndStones.Models;
 using SticksAndStones.Models.DAL;
 
 namespace SticksAndStones.Controllers
@@ -54,7 +53,7 @@ namespace SticksAndStones.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserName,GamesPlayed,GamesWon")] User user)
+        public async Task<IActionResult> Create([Bind("UserID,Username,RealName,GamesPlayed,GamesWon,IsActive")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +85,7 @@ namespace SticksAndStones.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,GamesPlayed,GamesWon")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,RealName,GamesPlayed,GamesWon,IsActive")] User user)
         {
             if (id != user.UserID)
             {

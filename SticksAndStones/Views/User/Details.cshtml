@@ -17,6 +17,12 @@
             @Html.DisplayFor(model => model.Username)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RealName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RealName)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.GamesPlayed)
         </dt>
         <dd class = "col-sm-10">
@@ -38,7 +44,7 @@
             @Html.DisplayNameFor(model => model.WinRate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WinRate)%
+            @Model.WinRate.ToString("P")
         </dd>
     </dl>
 </div>
