@@ -16,6 +16,8 @@ namespace SticksAndStones.Models.GameComponents.Characters
         protected int _decay;
         protected bool _alive;
         protected int _processPriority;
+        protected int _redirectCount;
+        protected CharacterBase _redirectAttackTarget;
         protected Lobby _lobby;
 
         public CharacterBase()
@@ -81,6 +83,23 @@ namespace SticksAndStones.Models.GameComponents.Characters
                                                         //players who are revived will remain in the
                                                         //queue
         public int Priority { get { return 100; } } //effects and other things that may effect
+
+        public CharacterBase RedirectAttackTarget
+        {
+            get { return _redirectAttackTarget; }
+        }
+
+        /// <summary>
+        /// Set both the number of attacks that will be redirected to a given target and how many 
+        /// times damage will be redirected to that target default is one
+        /// </summary>
+        /// <param name="redirectTarget">Character who will absorb attacks</param>
+        /// <param name="numberOfRedirects">how many times the attacks will be redirected</param>
+        public void SetRedirect(CharacterBase redirectTarget, int numberOfRedirects = 1)
+        {
+            _redirectAttackTarget = redirectTarget;
+            _redirectCount = numberOfRedirects;
+        }
 
         public string Type { get { return "Player"; } }
 
@@ -183,19 +202,13 @@ namespace SticksAndStones.Models.GameComponents.Characters
         /// negative value (an attack) method will factor in character's defense level to calculate the final damage 
         /// value
         /// </summary>
-        /// <param name="changeAmount">Amount of healt change requested</param>
+        /// <param name="changeAmount">Amount of health change requested</param>
         /// <returns>Game error or success code</returns>
         public GameError updateHealth(int changeAmount)
         {
             if (changeAmount < 0) //indicates an attack action
-                changeAmount = changeAmount + (int)((float)changeAmount * _defenseMultiplyer);
+                return GameError.IEFFECTABLE_ARGUMENT_TOO_LOW;
 
-            //health cannot drop below 0 only to 0
-            if (_health + changeAmount > 0)
-            {
-                _health = 0;
-                return GameError.SUCCESS;
-            }
             else if (_health + changeAmount > _maxHealth)
             {
                 return GameError.IEFFECTABLE_ARGUMENT_TOO_HIGH;
@@ -203,6 +216,27 @@ namespace SticksAndStones.Models.GameComponents.Characters
 
             //apply the health change
             _health += changeAmount;
+            return GameError.SUCCESS;
+        }
+
+        public GameError TakeDamage(int damage, bool ignoreMultiplier = false)
+        {
+            if (damage < 0)
+            {
+                return GameError.IEFFECTABLE_ARGUMENT_TOO_LOW;
+            }
+
+            //health may go no lower than 0
+            if (_health - damage > 0)
+            {
+                _health = 0;
+                return GameError.SUCCESS;
+            }
+            else
+            {
+                _health = _health - damage;
+            }
+
             return GameError.SUCCESS;
         }
 
