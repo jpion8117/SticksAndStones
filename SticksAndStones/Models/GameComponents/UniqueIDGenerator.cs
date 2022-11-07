@@ -4,7 +4,7 @@ namespace SticksAndStones.Models.GameComponents
 {
     public class UniqueIDGenerator
     {
-        static private ulong _idPool = 0;
+        static private ulong _idPool = 1000;
         static private List<IIdentifiable> _identifiables = new List<IIdentifiable>();
         
         /// <summary>
