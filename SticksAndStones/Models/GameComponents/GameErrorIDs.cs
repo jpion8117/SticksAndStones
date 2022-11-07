@@ -49,12 +49,12 @@
         /// <summary>
         /// used by IEffectable objects for changes that are too high above acceptable range
         /// </summary>
-        IEFFECTABLE_ARGUMENT_TOO_HIGH,
+        GENERAL_ARGUMENT_TOO_HIGH,
 
         /// <summary>
         /// used by IEffectable objects for changes that are too low below acceptable range
         /// </summary>
-        IEFFECTABLE_ARGUMENT_TOO_LOW,
+        GENERAL_ARGUMENT_TOO_LOW,
 
         /// <summary>
         /// Used by IEffectable to indicate an effect that was being searched for was not found
@@ -79,6 +79,14 @@
         /// <summary>
         /// Sent by the lobby turn processor when all players on team A are dead
         /// </summary>
-        LOBBY_TEAM_B_WINS
+        LOBBY_TEAM_B_WINS,
+        /// <summary>
+        /// Sent by moves that are invalid
+        /// </summary>
+        MOVE_INVALID,
+        /// <summary>
+        /// IProcessable failed to execute during execution method
+        /// </summary>
+        IPROCESSABLE_FAILED_EXE
     }
 }

@@ -1,4 +1,5 @@
-﻿using SticksAndStones.Models.GameComponents.StatusEffects;
+﻿using SticksAndStones.Models.GameComponents.Moves;
+using SticksAndStones.Models.GameComponents.StatusEffects;
 using System;
 using System.Collections.Generic;
 
@@ -15,14 +16,24 @@ namespace SticksAndStones.Models.GameComponents.Characters
         protected int _maxPower;
         protected int _decay;
         protected bool _alive;
-        protected int _processPriority;
         protected int _redirectCount;
         protected CharacterBase _redirectAttackTarget;
-        protected Lobby _lobby;
+        protected List<BaseMove> _moveList;
+        private ulong _partyID;
 
         public CharacterBase()
         {
             _id = UniqueIDGenerator.GetID(this);
+            _power = 10;
+            _maxPower = 20;
+            _alive = true;
+            _decay = 0;
+            _redirectCount = 0;
+            _redirectAttackTarget = null;
+            _partyID = 0;
+            _moveList = new List<BaseMove>();
+            _moveList.Add(new StandardAttack(this));
+            _moveList.Add(new StandardBlock(this));
         }
 
         /// <summary>
@@ -32,6 +43,15 @@ namespace SticksAndStones.Models.GameComponents.Characters
         public ulong UniqueID
         {
             get { return _id; }
+        }
+
+        public ulong PartyID 
+        { 
+            get { return _partyID; }
+            set 
+            { 
+                _partyID = UniqueIDGenerator.GetIdentifiableByID(value).Type == "Party" ? value : 0;
+            } 
         }
 
         public int Health
@@ -86,7 +106,16 @@ namespace SticksAndStones.Models.GameComponents.Characters
 
         public CharacterBase RedirectAttackTarget
         {
-            get { return _redirectAttackTarget; }
+            get 
+            {
+                if (_redirectCount == 0 || _redirectAttackTarget == null)
+                {
+                    _redirectAttackTarget = null;
+                    return _redirectAttackTarget;
+                }
+
+                return _redirectAttackTarget; 
+            }
         }
 
         /// <summary>
@@ -105,66 +134,18 @@ namespace SticksAndStones.Models.GameComponents.Characters
 
         public object IdentifiableObject { get { return this; } }
 
-        //player health need to process first
-
-        //public GameError addEffect(BaseStatusEffect effect)
-        //{
-        //    foreach (BaseStatusEffect playerStatus in _statusEffects)
-        //    {
-        //        if (playerStatus.EffectGroupID == effect.EffectGroupID)
-        //        {
-        //            return playerStatus.StackEffect(effect);
-        //        }
-        //    }
-
-        //    _statusEffects.Add(effect);
-        //    return GameError.SUCCESS;
-        //}
-
         public GameError ExecuteAction()
         {
             //check if player is still alive
             if (_health <= 0)
                 _alive = false;
 
-            ////remove any expired effects
-            //foreach (BaseStatusEffect playerStatus in _statusEffects)
-            //{
-            //    if (playerStatus.Completed)
-            //    {
-            //        _statusEffects.Remove(playerStatus);
-            //    }
-            //}
+            //check for redirects and reduce redirect count if needed
+            if (_redirectCount != 0)
+                _redirectCount--;
 
             return GameError.SUCCESS;
         }
-
-        //public GameError purgeNegativeEffects()
-        //{
-        //    foreach (BaseStatusEffect effect in _statusEffects)
-        //    {
-        //        if (effect.IsNegative)
-        //        {
-        //            effect.Cure();
-        //        }
-        //    }
-
-        //    return GameError.SUCCESS;
-        //}
-
-        //public GameError removeEffect(BaseStatusEffect effect)
-        //{
-        //    foreach (BaseStatusEffect playerEffect in _statusEffects)
-        //    {
-        //        if (playerEffect.UniqueID == effect.UniqueID)
-        //        {
-        //            playerEffect.Cure();
-        //            return GameError.SUCCESS;
-        //        }
-        //    }
-
-        //    return GameError.IEFFECTABLE_EFFECT_NOT_FOUND;
-        //}
 
         /// <summary>
         /// Attack multiplier used to determine how much additional damage is added (or removed) from the 
@@ -175,8 +156,8 @@ namespace SticksAndStones.Models.GameComponents.Characters
             get { return _attackMultiplyer; }
             set 
             { 
-                if(value < -1 || value > 1)
-                    throw new ArgumentOutOfRangeException("Attack multiplier must be between -1 and 1 (-100% and 100%)");
+                if(value < -1 || value > 5)
+                    throw new ArgumentOutOfRangeException("Attack multiplier must be between -1 and 5 (-100% and 500%)");
 
                 _attackMultiplyer = value; 
             }
@@ -190,8 +171,8 @@ namespace SticksAndStones.Models.GameComponents.Characters
             get { return _defenseMultiplyer; }
             set
             {
-                if (value < -1 || value > 1)
-                    throw new ArgumentOutOfRangeException("Defense multiplier must be between -1 and 1 (-100% and 100%)");
+                if (value < -5 || value > 1)
+                    throw new ArgumentOutOfRangeException("Defense multiplier must be between -5 and 1 (-500% and 100%)");
 
                 _defenseMultiplyer = value;
             }
@@ -207,11 +188,11 @@ namespace SticksAndStones.Models.GameComponents.Characters
         public GameError updateHealth(int changeAmount)
         {
             if (changeAmount < 0) //indicates an attack action
-                return GameError.IEFFECTABLE_ARGUMENT_TOO_LOW;
+                return GameError.GENERAL_ARGUMENT_TOO_LOW;
 
             else if (_health + changeAmount > _maxHealth)
             {
-                return GameError.IEFFECTABLE_ARGUMENT_TOO_HIGH;
+                return GameError.GENERAL_ARGUMENT_TOO_HIGH;
             }
 
             //apply the health change
@@ -219,22 +200,34 @@ namespace SticksAndStones.Models.GameComponents.Characters
             return GameError.SUCCESS;
         }
 
-        public GameError TakeDamage(int damage, bool ignoreMultiplier = false)
+        /// <summary>
+        /// Apply damage to a character
+        /// </summary>
+        /// <param name="damage">Amount of damage character will take</param>
+        /// <param name="ignoreDefense">If set to true, damage dealt will ignore defense multiplier. Default 
+        /// value is false</param>
+        /// <returns></returns>
+        public GameError TakeDamage(int damage, bool ignoreDefense = false)
         {
             if (damage < 0)
             {
-                return GameError.IEFFECTABLE_ARGUMENT_TOO_LOW;
+                return GameError.GENERAL_ARGUMENT_TOO_LOW;
+            }
+
+            //check for redirects
+            if (RedirectAttackTarget != null)
+            {
+                _redirectAttackTarget.TakeDamage(damage, ignoreDefense);
             }
 
             //health may go no lower than 0
-            if (_health - damage > 0)
+            if (_health - (ignoreDefense ? damage : (int)((float)damage * _defenseMultiplyer)) > 0)
             {
                 _health = 0;
-                return GameError.SUCCESS;
             }
             else
             {
-                _health = _health - damage;
+                _health = ignoreDefense ? _health - damage : _health - (int)((float)damage * _defenseMultiplyer);
             }
 
             return GameError.SUCCESS;
@@ -250,11 +243,11 @@ namespace SticksAndStones.Models.GameComponents.Characters
         {
             if (_power + changeAmount > 0)
             {
-                return GameError.IEFFECTABLE_ARGUMENT_TOO_LOW;
+                return GameError.GENERAL_ARGUMENT_TOO_LOW;
             }
             else if (_power + changeAmount > _maxPower)
             {
-                return GameError.IEFFECTABLE_ARGUMENT_TOO_HIGH;
+                return GameError.GENERAL_ARGUMENT_TOO_HIGH;
             }
 
             _power += changeAmount;

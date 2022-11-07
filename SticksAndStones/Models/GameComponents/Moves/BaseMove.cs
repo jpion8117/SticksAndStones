@@ -79,9 +79,9 @@ namespace SticksAndStones.Models.GameComponents.Moves
         /// </summary>
         /// <param name="executioner">Character performing move</param>
         /// <returns>True if character has enough power to perform move</returns>
-        public virtual bool CheckIfValidMove(CharacterBase executioner)
+        public virtual bool CheckIfValidMove()
         { 
-            return executioner.Power - _moveCost >= 0; 
+            return _moveExecutioner.Power - _moveCost >= 0 && _targets.Count > 0 && _targets.Count <= _maxTargets; 
         }
 
         /// <summary>
@@ -90,7 +90,16 @@ namespace SticksAndStones.Models.GameComponents.Moves
         /// enemies.
         /// </summary>
         /// <returns>GameError code indicating either success or an error occured</returns>
-        abstract public GameError ExecuteAction();
+        public virtual GameError ExecuteAction()
+        {
+            //deduct move cost from executioner power level
+            _moveExecutioner.updatePower(-_moveCost);
+
+            //mark move as complete
+            _moveExecuted = true;
+
+            return GameError.SUCCESS;
+        }
 
         /// <summary>
         /// *** Inherited from IProcessable interface *** Defines the priority a processable entity will
