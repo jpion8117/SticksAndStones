@@ -10,8 +10,8 @@ namespace SticksAndStones.Models.GameComponents.Characters
         protected ulong _id;
         protected int _health;
         protected int _power;
-        protected float _attackMultiplyer;
-        protected float _defenseMultiplyer;
+        protected double _attackMultiplyer;
+        protected double _defenseMultiplyer;
         protected int _maxHealth;
         protected int _maxPower;
         protected int _decay;
@@ -151,7 +151,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
         /// Attack multiplier used to determine how much additional damage is added (or removed) from the 
         /// base attack damage
         /// </summary>
-        public float AttackMultiplier
+        public double AttackMultiplier
         {
             get { return _attackMultiplyer; }
             set 
@@ -166,7 +166,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
         /// Defense multiplier used to determine how much additional damage is blocked from the 
         /// base attack damage negative values have a chance of adding additional damage to an attack
         /// </summary>
-        public float DefenseMultiplier
+        public double DefenseMultiplier
         {
             get { return _defenseMultiplyer; }
             set
@@ -174,7 +174,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
                 if (value < -5 || value > 1)
                     throw new ArgumentOutOfRangeException("Defense multiplier must be between -5 and 1 (-500% and 100%)");
 
-                _defenseMultiplyer = value;
+                _defenseMultiplyer = Math.Round(1 - value, 2);
             }
         }
 
@@ -221,7 +221,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             }
 
             //health may go no lower than 0
-            if (_health - (ignoreDefense ? damage : (int)((float)damage * _defenseMultiplyer)) > 0)
+            if (_health - (ignoreDefense ? damage : (int)((float)damage * _defenseMultiplyer)) < 0)
             {
                 _health = 0;
             }
