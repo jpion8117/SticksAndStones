@@ -4,7 +4,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
 {
     public class StandardBlock : BaseMove
     {
-        private float _originalDefenseMultiplier;
+        private double _originalDefenseMultiplier;
         private int _runCount = 0;
         public StandardBlock(CharacterBase executioner) : base(executioner)
         {
