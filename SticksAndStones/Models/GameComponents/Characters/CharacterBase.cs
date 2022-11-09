@@ -58,10 +58,6 @@ namespace SticksAndStones.Models.GameComponents.Characters
         {
             get { return _health; }
         }
-        public bool CanRevive
-        {
-            get { return _decay < 3; }
-        }
         /// <summary>
         /// Flags if player is still alive. If player is dead and value is set to true
         /// (IE another player uses a revive move) the player will be marked as alive agian
@@ -77,14 +73,14 @@ namespace SticksAndStones.Models.GameComponents.Characters
                     _decay++; //counts the number of rounds you have been dead
                               //after 3 rounds you are no longer revivable.
                 }
-                _alive = _health > 0;
+
                 return _alive;
             }
             set
             {
                 if (!_alive && value && _decay < 3)
                 {
-                    _health = (int)(_maxHealth * .2);
+                    _health = (int)(_maxHealth * .1);
                     _alive = true;
                     _decay = 0;
                 }
@@ -197,7 +193,6 @@ namespace SticksAndStones.Models.GameComponents.Characters
             else if (_health + changeAmount > _maxHealth)
             {
                 _health = _maxHealth;
-                return GameError.SUCCESS;
             }
 
             //apply the health change
