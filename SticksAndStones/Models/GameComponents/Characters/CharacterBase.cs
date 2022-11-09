@@ -85,7 +85,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             {
                 if (!_alive && value && CanRevive)
                 {
-                    _health = (int)(_maxHealth * .1);
+                    _health = (int)(_maxHealth * .2);
                     _alive = true;
                     _decay = 0;
                 }
@@ -164,7 +164,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
                 if(value < -1 || value > 5)
                     throw new ArgumentOutOfRangeException("Attack multiplier must be between -1 and 5 (-100% and 500%)");
 
-                _attackMultiplyer = value; 
+                _attackMultiplyer = Math.Round(1 - value, 2); 
             }
         }
         /// <summary>
@@ -198,6 +198,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             else if (_health + changeAmount > _maxHealth)
             {
                 _health = _maxHealth;
+                return GameError.SUCCESS;
             }
 
             //apply the health change
