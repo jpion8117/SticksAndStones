@@ -192,7 +192,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
 
             else if (_health + changeAmount > _maxHealth)
             {
-                return GameError.GENERAL_ARGUMENT_TOO_HIGH;
+                _health = _maxHealth;
             }
 
             //apply the health change
@@ -247,7 +247,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             }
             else if (_power + changeAmount > _maxPower)
             {
-                return GameError.GENERAL_ARGUMENT_TOO_HIGH;
+                _power = _maxPower;
             }
 
             _power += changeAmount;
