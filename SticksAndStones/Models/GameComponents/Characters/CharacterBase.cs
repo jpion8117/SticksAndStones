@@ -224,6 +224,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             if (RedirectAttackTarget != null)
             {
                 _redirectAttackTarget.TakeDamage(damage, ignoreDefense);
+                return GameError.SUCCESS;
             }
 
             //health may go no lower than 0

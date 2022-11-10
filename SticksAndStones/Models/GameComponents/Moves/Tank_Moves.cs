@@ -40,7 +40,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
                     return false;
 
                 //validate to make sure executioner is not targeting self
-                else if (target.UniqueID != _moveExecutioner.UniqueID)
+                else if (target.UniqueID == _moveExecutioner.UniqueID)
                     return false;
             }
 

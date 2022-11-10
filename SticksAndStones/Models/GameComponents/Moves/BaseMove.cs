@@ -17,6 +17,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
         {
             _uID = UniqueIDGenerator.GetID(this);
             _moveExecutioner = executioner;
+            _targets = new List<CharacterBase>();
         }
 
         /// <summary>
