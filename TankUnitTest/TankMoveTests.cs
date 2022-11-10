@@ -112,8 +112,8 @@ namespace TankUnitTest
         public void Test004_BloodDonor()
         {
             //create test characters and configure
-            var speciminA = new Tank { PartyID = 1000 };
-            var speciminB = new Tank { PartyID = 1000 };
+            var speciminA = new Tank();
+            var speciminB = new Tank();
             speciminA.updatePower(3);
 
             //create move instance and set target
@@ -138,12 +138,48 @@ namespace TankUnitTest
             //verify results
             Assert.IsTrue(speciminA.Health == speciminAHealth, $"SpeciminA.Health expected:{speciminAHealth}, " +
                 $"result:{speciminA.Health}");
-            Assert.IsTrue(speciminA.Power == speciminAPower, $"SpeciminA.Health expected:{speciminAPower}, " +
+            Assert.IsTrue(speciminA.Power == speciminAPower, $"SpeciminA.Power expected:{speciminAPower}, " +
                 $"result:{speciminA.Power}");
             Assert.IsTrue(speciminB.Health == speciminBHealth, $"SpeciminA.Health expected:{speciminBHealth}, " +
                 $"result:{speciminB.Health}");
-            Assert.IsTrue(speciminB.Power == speciminBPower, $"SpeciminA.Health expected:{speciminBPower}, " +
+            Assert.IsTrue(speciminB.Power == speciminBPower, $"SpeciminA.Power expected:{speciminBPower}, " +
                 $"result:{speciminB.Power}");
+        }
+        /// <summary>
+        /// Tests the tank's body slam move against another target
+        /// </summary>
+        [TestMethod]
+        public void Test005_BodySlam()
+        {
+            var speciminA = new Tank();
+            var speciminB = new Tank();
+            speciminA.PartyID = 0;
+            speciminB.PartyID = 1;
+            speciminB.DefenseMultiplier = 0;
+
+            var move = new BodySlam(speciminA);
+            move.AddTarget(speciminB);
+            move.ExecuteAction();
+
+            int speciminAPower = 5;
+            int speciminAHealth = 100;
+            int speciminBPower = 10;
+            int speciminBHealth = 88;
+
+            //verify results
+            Assert.IsTrue(speciminA.Health == speciminAHealth, $"SpeciminA.Health expected:{speciminAHealth}, " +
+                $"result:{speciminA.Health}");
+            Assert.IsTrue(speciminA.Power == speciminAPower, $"SpeciminA.Power expected:{speciminAPower}, " +
+                $"result:{speciminA.Power}");
+            Assert.IsTrue(speciminB.Health == speciminBHealth, $"SpeciminA.Health expected:{speciminBHealth}, " +
+                $"result:{speciminB.Health}");
+            Assert.IsTrue(speciminB.Power == speciminBPower, $"SpeciminA.Power expected:{speciminBPower}, " +
+                $"result:{speciminB.Power}");
+        }
+        [TestMethod]
+        public void Test006_ManOfSteelSpecial()
+        {
+
         }
     }
 }
