@@ -248,7 +248,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
         /// <returns>GameError error or success code</returns>
         public GameError updatePower(int changeAmount)
         {
-            if (_power + changeAmount > 0)
+            if (_power + changeAmount < 0)
             {
                 return GameError.GENERAL_ARGUMENT_TOO_LOW;
             }
