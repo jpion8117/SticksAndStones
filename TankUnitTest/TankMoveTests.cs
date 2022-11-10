@@ -2,6 +2,7 @@
 using SticksAndStones.Models.GameComponents.Characters;
 using SticksAndStones.Models.GameComponents.Moves.Tank;
 using SticksAndStones.Models.GameComponents.Moves;
+using SticksAndStones.Models.GameComponents;
 
 namespace TankUnitTest
 {
@@ -72,7 +73,10 @@ namespace TankUnitTest
             bulletSponge.ExecuteAction();
 
             //verify move was applied properly
+            int expectedPowRemain = 5;
             Assert.IsTrue(bulletSponge.CheckIfValidMove(), "Move not returning valid");
+            Assert.IsTrue(executioner.Power == expectedPowRemain, $"executioner should have {expectedPowRemain} power " +
+                $"remaining, but reports {executioner.Power} power");
             Assert.IsTrue(teamMember1.RedirectAttackTarget != null, "Redirect failed to bind");
 
             //apply 10hp direct damage to all 3 Tanks, damage should all be directed to executioner
@@ -100,6 +104,46 @@ namespace TankUnitTest
                 $"{expectedResultT}HP but was reported as {teamMember1.Health}HP");
             Assert.IsTrue(executioner.Health == expectedResultE, $"teamMember1 health should be " +
                 $"{expectedResultE}HP but was reported as {executioner.Health}HP");
+        }
+        /// <summary>
+        /// Tests the blood donor move inwich one tank character gives another character 10hp 
+        /// </summary>
+        [TestMethod]
+        public void Test004_BloodDonor()
+        {
+            //create test characters and configure
+            var speciminA = new Tank { PartyID = 1000 };
+            var speciminB = new Tank { PartyID = 1000 };
+            speciminA.updatePower(3);
+
+            //create move instance and set target
+            var move = new BloodDonor(speciminA);
+            var targetAddResult = move.AddTarget(speciminB);
+
+            //verify target was bound to move successfully
+            Assert.IsTrue(targetAddResult == GameError.SUCCESS, $"Error binding target, result returned {targetAddResult}");
+
+            //apply damage to specimin B
+            speciminB.TakeDamage(50, true);
+
+            //use move to heal speciminB
+            move.ExecuteAction();
+
+            //define expectations
+            int speciminAHealth = 85;
+            int speciminAPower = 8;
+            int speciminBHealth = 60;
+            int speciminBPower = 10;
+
+            //verify results
+            Assert.IsTrue(speciminA.Health == speciminAHealth, $"SpeciminA.Health expected:{speciminAHealth}, " +
+                $"result:{speciminA.Health}");
+            Assert.IsTrue(speciminA.Power == speciminAPower, $"SpeciminA.Health expected:{speciminAPower}, " +
+                $"result:{speciminA.Power}");
+            Assert.IsTrue(speciminB.Health == speciminBHealth, $"SpeciminA.Health expected:{speciminBHealth}, " +
+                $"result:{speciminB.Health}");
+            Assert.IsTrue(speciminB.Power == speciminBPower, $"SpeciminA.Health expected:{speciminBPower}, " +
+                $"result:{speciminB.Power}");
         }
     }
 }
