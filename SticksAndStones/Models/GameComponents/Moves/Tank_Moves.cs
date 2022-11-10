@@ -66,10 +66,6 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             if (!CheckIfValidMove())
                 return GameError.MOVE_INVALID;
 
-            //make sure target is in the same party
-            if (_targets[0].PartyID == _moveExecutioner.PartyID)
-                return GameError.MOVE_INVALID;
-
             //remove 15 health from executioner
             _moveExecutioner.TakeDamage(15, true);
 
