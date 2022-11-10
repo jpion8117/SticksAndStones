@@ -49,8 +49,16 @@ namespace SticksAndStones.Models.GameComponents.Characters
         { 
             get { return _partyID; }
             set 
-            { 
-                _partyID = UniqueIDGenerator.GetIdentifiableByID(value).Type == "Party" ? value : 0;
+            {
+                //values less than 1000 used for testing purposes
+                if(value < 1000)
+                {
+                    _partyID = value;
+                }
+                else
+                { 
+                    _partyID = UniqueIDGenerator.GetIdentifiableByID(value).Type == "Party" ? value : 0;
+                }
             } 
         }
 
