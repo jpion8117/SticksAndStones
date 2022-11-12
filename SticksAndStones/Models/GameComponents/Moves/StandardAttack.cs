@@ -5,6 +5,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
     public class StandardAttack : BaseMove
     {
         private int _attackDamage = -5;
+        public int AttackDamage { get { return _attackDamage; } }
         public StandardAttack(CharacterBase executioner) : base(executioner)
         {
             _maxTargets = 1;                                                //Standard attacks only effect a single target
