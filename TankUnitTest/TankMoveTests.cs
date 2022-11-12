@@ -176,10 +176,10 @@ namespace TankUnitTest
             Assert.IsTrue(speciminB.Power == speciminBPower, $"SpeciminA.Power expected:{speciminBPower}, " +
                 $"result:{speciminB.Power}");
         }
-        [TestMethod]
-        public void Test006_ManOfSteelSpecial()
-        {
+        //[TestMethod]
+        //public void Test006_ManOfSteelSpecial()
+        //{
 
-        }
+        //}
     }
 }
