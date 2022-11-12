@@ -48,10 +48,18 @@ namespace SticksAndStones.Models.GameComponents.Characters
         public ulong PartyID 
         { 
             get { return _partyID; }
-            set 
-            { 
-                _partyID = UniqueIDGenerator.GetIdentifiableByID(value).Type == "Party" ? value : 0;
-            } 
+            set
+            {
+                //values less than 1000 used for testing purposes
+                if (value < 1000)
+                {
+                    _partyID = value;
+                }
+                else
+                {
+                    _partyID = UniqueIDGenerator.GetIdentifiableByID(value).Type == "Party" ? value : 0;
+                }
+            }
         }
 
         public int Health
