@@ -1,5 +1,6 @@
 ﻿using SticksAndStones.Models.GameComponents;
 using SticksAndStones.Models.GameComponents.Characters;
+using System;
 using System.Collections.Generic;
 
 namespace SticksAndStones.Models.GameComponents.Moves
@@ -139,6 +140,18 @@ namespace SticksAndStones.Models.GameComponents.Moves
         /// </summary>
         abstract public string Type { get; }
 
-
+        /// <summary>
+        /// calculate the move's base damage from an adjusted target based on a given damage multiplier.
+        /// </summary>
+        /// <param name="targetDamage"></param>
+        /// <returns></returns>
+        protected int GetMoveBaseDamage(int targetDamage)
+        {
+            return (int)(targetDamage / (Math.Round(_moveExecutioner.AttackMultiplier, 2) + 1));
+        }
+        protected int GetMoveAdjustedDamage(int baseDamage)
+        {
+            return baseDamage + (int)Math.Round(baseDamage * _moveExecutioner.AttackMultiplier, 0);
+        }
     }
 }

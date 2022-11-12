@@ -48,18 +48,18 @@ namespace SticksAndStones.Models.GameComponents.Characters
         public ulong PartyID 
         { 
             get { return _partyID; }
-            set
+            set 
             {
                 //values less than 1000 used for testing purposes
-                if (value < 1000)
+                if(value < 1000)
                 {
                     _partyID = value;
                 }
                 else
-                {
+                { 
                     _partyID = UniqueIDGenerator.GetIdentifiableByID(value).Type == "Party" ? value : 0;
                 }
-            }
+            } 
         }
 
         public int Health
@@ -85,12 +85,13 @@ namespace SticksAndStones.Models.GameComponents.Characters
                     _decay++; //counts the number of rounds you have been dead
                               //after 3 rounds you are no longer revivable.
                 }
+
                 _alive = _health > 0;
                 return _alive;
             }
             set
             {
-                if (!_alive && value && _decay < 3)
+                if (!_alive && value && CanRevive)
                 {
                     _health = (int)(_maxHealth * .2);
                     _alive = true;
@@ -171,7 +172,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
                 if(value < -1 || value > 5)
                     throw new ArgumentOutOfRangeException("Attack multiplier must be between -1 and 5 (-100% and 500%)");
 
-                _attackMultiplyer = value; 
+                _attackMultiplyer = Math.Round(1 - value, 2); 
             }
         }
         /// <summary>
@@ -231,6 +232,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             if (RedirectAttackTarget != null)
             {
                 _redirectAttackTarget.TakeDamage(damage, ignoreDefense);
+                return GameError.SUCCESS;
             }
 
             //health may go no lower than 0
@@ -254,7 +256,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
         /// <returns>GameError error or success code</returns>
         public GameError updatePower(int changeAmount)
         {
-            if (_power + changeAmount > 0)
+            if (_power + changeAmount < 0)
             {
                 return GameError.GENERAL_ARGUMENT_TOO_LOW;
             }
