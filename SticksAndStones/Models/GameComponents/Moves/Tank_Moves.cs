@@ -40,7 +40,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
                     return false;
 
                 //validate to make sure executioner is not targeting self
-                else if (target.UniqueID != _moveExecutioner.UniqueID)
+                else if (target.UniqueID == _moveExecutioner.UniqueID)
                     return false;
             }
 
@@ -64,10 +64,6 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
         {
             //check if move is valid
             if (!CheckIfValidMove())
-                return GameError.MOVE_INVALID;
-
-            //make sure target is in the same party
-            if (_targets[0].PartyID == _moveExecutioner.PartyID)
                 return GameError.MOVE_INVALID;
 
             //remove 15 health from executioner
@@ -100,10 +96,12 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
     /// </summary>
     public class BodySlam : BaseMove
     {
+        private int _attackDamage;
         public BodySlam(CharacterBase executioner) : base(executioner)
         {
             _moveCost = 5;
             _maxTargets = 1;
+            _attackDamage = GetMoveBaseDamage(12);
         }
 
         public override string Type => "BodySlamMove";
@@ -112,8 +110,8 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
         {
             if (!CheckIfValidMove())
                 return GameError.MOVE_INVALID;
-
-            _targets[0].TakeDamage(12);
+            var damage = GetMoveAdjustedDamage(_attackDamage);
+            _targets[0].TakeDamage(damage);
 
             return base.ExecuteAction();
         }
