@@ -121,7 +121,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
     /// </summary>
     public class ManOfSteelSpecial : BaseMove
     {
-        private int _runCount = 0;
+        private bool _moveRun = false;
         public ManOfSteelSpecial(CharacterBase executioner) : base(executioner)
         {
             _maxTargets = 1;
@@ -135,30 +135,36 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             if (!CheckIfValidMove())
                 return GameError.MOVE_INVALID;
 
-            if (_runCount == 0)
+            switch (mode)
             {
-                //double executioner's defense
-                _moveExecutioner.DefenseMultiplier *= 1.5f;
+                case ProcessMode.Move:
+                    if (!_moveRun)
+                    {
+                        //double executioner's defense
+                        _moveExecutioner.DefenseMultiplier *= 1.5f;
 
-                //redirect next attack to executioner
-                _targets[0].SetRedirect(_moveExecutioner);
+                        //redirect next attack to executioner
+                        _targets[0].SetRedirect(_moveExecutioner);
 
-                _runCount++;
-
-                if (base.ExecuteAction() == GameError.SUCCESS)
-                {
-                    //keep move in queue to reset defense
-                    _moveExecuted = false;
+                        if (base.ExecuteAction() == GameError.SUCCESS)
+                        {
+                            //keep move in queue to reset defense at round level
+                            _moveExecuted = false;
+                            return GameError.SUCCESS;
+                        }
+                        else
+                            return GameError.MOVE_INVALID;
+                    }
                     return GameError.SUCCESS;
-                }
-                else
-                    return GameError.MOVE_INVALID;
+
+                case ProcessMode.Round:
+                    //return defense to original value
+                    _moveExecutioner.DefenseMultiplier = 0.5f;
+
+                    return base.ExecuteAction();
             }
 
-            //return defense to original value
-            _moveExecutioner.DefenseMultiplier = 0.5f;
-
-            return base.ExecuteAction();
+            return GameError.SUCCESS;
         }
     }
 }
