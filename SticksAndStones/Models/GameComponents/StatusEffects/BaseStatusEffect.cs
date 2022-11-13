@@ -59,7 +59,7 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
         /// <param name="effect">Incomming status effect</param>
         public abstract GameError StackEffect(BaseStatusEffect effect);
 
-        public abstract GameError ExecuteAction();
+        public abstract GameError ExecuteAction(ProcessMode mode = ProcessMode.Move);
 
         public abstract string Type { get; }
     }

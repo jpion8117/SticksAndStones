@@ -12,6 +12,6 @@
         /// gets the completion status of a processable and 
         /// </summary>
         public bool Completed { get; }
-        public GameError ExecuteAction();
+        public GameError ExecuteAction(ProcessMode mode = ProcessMode.Move);
     }
 }

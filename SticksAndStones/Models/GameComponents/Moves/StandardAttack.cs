@@ -17,7 +17,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
 
         public override string Type { get { return "Attack!"; } }
 
-        public override GameError ExecuteAction()
+        public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             if (_targets.Count == 0)
                 return GameError.MOVE_NO_TARGETS_DEFINED;

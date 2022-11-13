@@ -147,7 +147,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
 
         public object IdentifiableObject { get { return this; } }
 
-        public GameError ExecuteAction()
+        public GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             //check if player is still alive
             if (_health <= 0)

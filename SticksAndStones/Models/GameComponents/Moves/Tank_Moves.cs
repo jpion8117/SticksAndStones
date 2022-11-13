@@ -15,7 +15,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
 
         public override string Type => "BulletSpongeMove";
 
-        public override GameError ExecuteAction()
+        public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             //check if move is valid
             if(!CheckIfValidMove())
@@ -60,7 +60,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
 
         public override string Type => "BloodDonorMove";
 
-        public override GameError ExecuteAction()
+        public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             //check if move is valid
             if (!CheckIfValidMove())
@@ -106,7 +106,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
 
         public override string Type => "BodySlamMove";
 
-        public override GameError ExecuteAction()
+        public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             if (!CheckIfValidMove())
                 return GameError.MOVE_INVALID;
@@ -130,7 +130,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
 
         public override string Type => "ManOfSteelSpecialMove";
 
-        public override GameError ExecuteAction()
+        public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             if (!CheckIfValidMove())
                 return GameError.MOVE_INVALID;

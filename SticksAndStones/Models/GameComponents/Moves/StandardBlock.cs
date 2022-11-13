@@ -14,7 +14,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
 
         public override string Type => "StandardBlockMove";
 
-        public override GameError ExecuteAction()
+        public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             if (_runCount == 0)
             {
