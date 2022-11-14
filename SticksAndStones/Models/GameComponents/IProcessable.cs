@@ -1,4 +1,6 @@
-﻿namespace SticksAndStones.Models.GameComponents
+﻿using System.Collections.Generic;
+
+namespace SticksAndStones.Models.GameComponents
 {
     public interface IProcessable : IIdentifiable
     {
@@ -12,6 +14,8 @@
         /// gets the completion status of a processable and 
         /// </summary>
         public bool Completed { get; }
+
+        public Dictionary<ProcessMode, bool> ProcessModesUsed { get; }
         public GameError ExecuteAction(ProcessMode mode = ProcessMode.Move);
     }
 }

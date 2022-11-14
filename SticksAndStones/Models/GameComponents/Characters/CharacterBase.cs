@@ -19,6 +19,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
         protected int _redirectCount;
         protected CharacterBase _redirectAttackTarget;
         protected List<BaseMove> _moveList;
+        protected Dictionary<ProcessMode, bool> _processModes = new Dictionary<ProcessMode, bool>();
         private ulong _partyID;
 
         public CharacterBase()
@@ -34,6 +35,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             _moveList = new List<BaseMove>();
             _moveList.Add(new StandardAttack(this));
             _moveList.Add(new StandardBlock(this));
+            _processModes.Add(ProcessMode.Move, true);
         }
 
         /// <summary>
@@ -190,6 +192,8 @@ namespace SticksAndStones.Models.GameComponents.Characters
                 _defenseMultiplyer = Math.Round(1 - value, 2);
             }
         }
+
+        public Dictionary<ProcessMode, bool> ProcessModesUsed => _processModes;
 
         /// <summary>
         /// Used for both attack (negative health effects) and healing (positive health effects) moves. When supplied a

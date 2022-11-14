@@ -1,4 +1,5 @@
 ﻿using SticksAndStones.Models.GameComponents.Characters;
+using System.Collections.Generic;
 
 namespace SticksAndStones.Models.GameComponents.StatusEffects
 {
@@ -8,6 +9,7 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
         protected CharacterBase _target;
         protected bool _activeEffect;
         protected bool _negative;
+        protected Dictionary<ProcessMode, bool> _processModes = new Dictionary<ProcessMode, bool>();
 
         /// <summary>
         /// Provides access to each status effect's group ID (shared among all instances of 
@@ -42,6 +44,7 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
         protected BaseStatusEffect()
         {
             _uID = UniqueIDGenerator.GetID(this);
+            _processModes.Add(ProcessMode.Move, true);
         }
 
         /// <summary>
@@ -62,5 +65,7 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
         public abstract GameError ExecuteAction(ProcessMode mode = ProcessMode.Move);
 
         public abstract string Type { get; }
+
+        public Dictionary<ProcessMode, bool> ProcessModesUsed => _processModes;
     }
 }

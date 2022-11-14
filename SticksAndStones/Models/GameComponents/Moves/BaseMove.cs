@@ -13,12 +13,14 @@ namespace SticksAndStones.Models.GameComponents.Moves
         protected CharacterBase _moveExecutioner; //defines the player who is performing the move
         protected ulong _uID;
         protected bool _moveExecuted = false;
+        protected Dictionary<ProcessMode, bool> _processModes = new Dictionary<ProcessMode, bool>();
 
         public BaseMove(CharacterBase executioner)
         {
             _uID = UniqueIDGenerator.GetID(this);
             _moveExecutioner = executioner;
             _targets = new List<CharacterBase>();
+            _processModes = new Dictionary<ProcessMode, bool>();
         }
 
         /// <summary>
@@ -139,6 +141,8 @@ namespace SticksAndStones.Models.GameComponents.Moves
         /// type for casting purposes if needed.
         /// </summary>
         abstract public string Type { get; }
+
+        public Dictionary<ProcessMode, bool> ProcessModesUsed => _processModes;
 
         /// <summary>
         /// calculate the move's base damage from an adjusted target based on a given damage multiplier.
