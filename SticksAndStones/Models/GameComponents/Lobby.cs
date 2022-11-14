@@ -97,12 +97,16 @@ namespace SticksAndStones.Models.GameComponents
             //process each processableEntity
             foreach (IProcessable processableEntity in _processables)
             {
+
                 GameError error = GameError.SUCCESS;
 
-                //will purge processable entity if it's actions are complete or 
-                //execute it if not.
+                //purge any processableEntities that have marked all tasks as complete, skip
+                //processing on entities that have ProcessMode.Move set to false, and process
+                //any that remain
                 if (processableEntity.Completed)
                     _processables.Remove(processableEntity);
+                else if (!processableEntity.ProcessModesUsed[ProcessMode.Move])
+                    continue;
                 else
                     error = processableEntity.ExecuteAction();
 
@@ -146,9 +150,42 @@ namespace SticksAndStones.Models.GameComponents
                 //reset turn number
                 _turnNumber = 0;
 
+                //process turn level actions
+                foreach(IProcessable processable in _processables)
+                {
+                    //check if there is a key for turn level events and get its value if there is otherwise
+                    //continue loop. This should skip unneeded method calls by only calling ExecuteAction 
+                    //on processables that have code to run.
+                    bool containsTurnEvents;
+                    if (!processable.ProcessModesUsed.TryGetValue(ProcessMode.Turn, out containsTurnEvents))
+                        continue;
+
+                    //run any actions that happen on the turn level
+                    if(containsTurnEvents)
+                        processable.ExecuteAction(ProcessMode.Turn);
+                }
+
                 //if party a is now the active party, incriment round number.
                 if (_aParty.User.UserID == _activeParty.User.UserID)
+                {
+
+                    //process round level actions
+                    foreach (IProcessable processable in _processables)
+                    {
+                        //check if there is a key for round level events and get its value if there is otherwise
+                        //continue loop. This should skip unneeded method calls by only calling ExecuteAction 
+                        //on processables that have code to run.
+                        bool containsRoundEvents;
+                        if (!processable.ProcessModesUsed.TryGetValue(ProcessMode.Round, out containsRoundEvents))
+                            continue;
+
+                        //run any actions that happen on the turn level
+                        if (containsRoundEvents)
+                            processable.ExecuteAction(ProcessMode.Round);
+                    }
+
                     _roundNumber++;
+                }
             }
 
             return results;
