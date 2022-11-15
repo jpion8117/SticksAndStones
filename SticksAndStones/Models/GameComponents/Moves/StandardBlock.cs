@@ -20,8 +20,9 @@ namespace SticksAndStones.Models.GameComponents.Moves
             {
                 case ProcessMode.Move:
                     _originalDefenseMultiplier = _moveExecutioner.DefenseMultiplier;
-                    _moveExecutioner.DefenseMultiplier *= 1.25f;
+                    _moveExecutioner.DefenseMultiplier += 0.3;
                     base.ExecuteAction();
+                    _processModes[ProcessMode.Move] = false;
                     _moveExecuted = false;
                     return GameError.SUCCESS;
                 case ProcessMode.Round:
