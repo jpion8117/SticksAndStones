@@ -126,6 +126,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
         {
             _maxTargets = 1;
             _moveCost = 16;
+            _processModes[ProcessMode.Round] = true;
         }
 
         public override string Type => "ManOfSteelSpecialMove";
@@ -141,7 +142,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
                     if (!_moveRun)
                     {
                         //double executioner's defense
-                        _moveExecutioner.DefenseMultiplier *= 1.5f;
+                        _moveExecutioner.DefenseMultiplier = 0.9f;
 
                         //redirect next attack to executioner
                         _targets[0].SetRedirect(_moveExecutioner);
@@ -150,6 +151,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
                         {
                             //keep move in queue to reset defense at round level
                             _moveExecuted = false;
+
                             return GameError.SUCCESS;
                         }
                         else
