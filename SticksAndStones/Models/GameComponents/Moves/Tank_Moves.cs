@@ -163,7 +163,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
                     //return defense to original value
                     _moveExecutioner.DefenseMultiplier = 0.5f;
 
-                    return base.ExecuteAction();
+                    return GameError.SUCCESS;
             }
 
             return GameError.SUCCESS;
