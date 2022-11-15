@@ -36,6 +36,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
             _moveList.Add(new StandardAttack(this));
             _moveList.Add(new StandardBlock(this));
             _processModes.Add(ProcessMode.Move, true);
+            _processModes.Add(ProcessMode.Round, true);
         }
 
         /// <summary>
@@ -151,13 +152,20 @@ namespace SticksAndStones.Models.GameComponents.Characters
 
         public GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
-            //check if player is still alive
-            if (_health <= 0)
-                _alive = false;
+            switch (mode)
+            {
+                case ProcessMode.Move:
+                    //check if player is still alive
+                    if (_health <= 0)
+                        _alive = false;
+                    break;
+                case ProcessMode.Round:
 
-            //check for redirects and reduce redirect count if needed
-            if (_redirectCount != 0)
-                _redirectCount--;
+                    //check for redirects and reduce redirect count if needed
+                    if (_redirectCount != 0)
+                        _redirectCount--;
+                    break;
+            }
 
             return GameError.SUCCESS;
         }
