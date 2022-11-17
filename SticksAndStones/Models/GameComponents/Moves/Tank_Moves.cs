@@ -133,12 +133,11 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
 
         public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
-            if (!CheckIfValidMove())
-                return GameError.MOVE_INVALID;
-
             switch (mode)
             {
                 case ProcessMode.Move:
+                    if (!CheckIfValidMove())
+                        return GameError.MOVE_INVALID;
                     if (!_moveRun)
                     {
                         //double executioner's defense
@@ -162,7 +161,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
                 case ProcessMode.Round:
                     //return defense to original value
                     _moveExecutioner.DefenseMultiplier = 0.5f;
-
+                    Completed = true;
                     return GameError.SUCCESS;
             }
 
