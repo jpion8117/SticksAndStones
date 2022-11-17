@@ -208,10 +208,67 @@ namespace TankUnitTest
             Assert.IsTrue(speciminB.Power == speciminBPower, $"SpeciminA.Power expected:{speciminBPower}, " +
                 $"result:{speciminB.Power}");
         }
-        //[TestMethod]
-        //public void Test007_ManOfSteelSpecial()
-        //{ 
+        [TestMethod]
+        public void Test007_ManOfSteelSpecial()
+        {
+            var speciminA = new Tank();
+            speciminA.updatePower(10);
+            var speciminB = new Tank();
 
-        //}
+            var move = new ManOfSteelSpecial(speciminA);
+            move.AddTarget(speciminB);
+            move.ExecuteAction();
+            move.ExecuteAction();
+            move.ExecuteAction(ProcessMode.Turn);
+
+            double speciminADefense = Math.Round(1-0.9f, 2);
+            double speciminBDefense = Math.Round(1-0.5f, 2);
+
+            Assert.IsTrue(speciminA.DefenseMultiplier == speciminADefense, $"SpeciminA Defense Expected: {speciminADefense}, " +
+                $"Result: {speciminA.DefenseMultiplier}");
+            Assert.IsTrue(speciminB.DefenseMultiplier == speciminBDefense, $"SpeciminB Defense Expected: {speciminBDefense}, " +
+                $"Result: {speciminB.DefenseMultiplier}");
+
+            speciminB.TakeDamage(20);
+            speciminB.TakeDamage(8, true);
+            speciminA.TakeDamage(10, true);
+
+            int speciminAHealth = 80;
+            int speciminAPower = 4;
+            int speciminBHealth = 100;
+            int speciminBPower = 10;
+            
+
+            Assert.IsTrue(speciminA.Health == speciminAHealth, $"B1 SpeciminA health expected: {speciminAHealth}, " +
+                $"result: {speciminA.Health}");
+            Assert.IsTrue(speciminA.Power == speciminAPower, $"B1 SpeciminA.Power expected:{speciminAPower}, " +
+                $"result:{speciminA.Power}");
+            Assert.IsTrue(speciminB.Health == speciminBHealth, $"B1 SpeciminB health expected: {speciminBHealth}, " +
+                $"result: {speciminB.Health}");
+            Assert.IsTrue(speciminB.Power == speciminBPower, $"B1 SpeciminA.Power expected:{speciminBPower}, " +
+                $"result:{speciminB.Power}");
+
+            move.ExecuteAction(ProcessMode.Round);
+            speciminA.ExecuteAction(ProcessMode.Round);
+            speciminB.ExecuteAction(ProcessMode.Round);
+
+            speciminB.TakeDamage(20, true);
+
+            speciminBHealth = 80;
+            speciminADefense = Math.Round(1 - 0.5f, 2);
+
+            Assert.IsTrue(speciminA.Health == speciminAHealth, $"B2 SpeciminA health expected: {speciminAHealth}, " +
+                $"result: {speciminA.Health}");
+            Assert.IsTrue(speciminA.Power == speciminAPower, $"B2 SpeciminA.Power expected:{speciminAPower}, " +
+                $"result:{speciminA.Power}");
+            Assert.IsTrue(speciminB.Health == speciminBHealth, $"B2 SpeciminB health expected: {speciminBHealth}, " +
+                $"result: {speciminB.Health}");
+            Assert.IsTrue(speciminB.Power == speciminBPower, $"B2 SpeciminA.Power expected:{speciminBPower}, " +
+                $"result:{speciminB.Power}");
+            Assert.IsTrue(speciminA.DefenseMultiplier == speciminADefense, $"B2 SpeciminA Defense Expected: {speciminADefense}, " +
+                $"Result: {speciminA.DefenseMultiplier}");
+            Assert.IsTrue(speciminB.DefenseMultiplier == speciminBDefense, $"B2 SpeciminB Defense Expected: {speciminBDefense}, " +
+                $"Result: {speciminB.DefenseMultiplier}");
+        }
     }
 }
