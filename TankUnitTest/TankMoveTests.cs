@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SticksAndStones.Models.GameComponents.Characters;
 using SticksAndStones.Models.GameComponents.Moves.Tank;
-using SticksAndStones.Models.GameComponents.Moves;
+using SticksAndStones.Models.GameComponents.Moves.Shared;
 using SticksAndStones.Models.GameComponents;
 using System;
 
