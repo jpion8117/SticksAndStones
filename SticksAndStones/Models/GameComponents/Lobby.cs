@@ -15,6 +15,7 @@ namespace SticksAndStones.Models.GameComponents
         private ulong _uID;
         private uint _partySize;
         private List<IProcessable> _processables;
+        private bool _processablesSorted = false;
 
         private static List<Lobby> _activeLobbies = new List<Lobby>();
 
@@ -52,6 +53,24 @@ namespace SticksAndStones.Models.GameComponents
                 }
 
                 _partySize = value; 
+            }
+        }
+
+        /// <summary>
+        /// Used internally to retrieve a list of all processable entities sorted by priority 
+        /// from highest (lowest values) to lowest (highest values) if needed.
+        /// </summary>
+        private List<IProcessable> Processables
+        {
+            get 
+            {
+                if(!_processablesSorted)
+                {
+                    _processables.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+                    _processablesSorted = true;
+                }
+
+                return _processables;
             }
         }
 
@@ -95,7 +114,7 @@ namespace SticksAndStones.Models.GameComponents
             List<(GameError, ulong)> results = new List<(GameError, ulong)> ();
 
             //process each processableEntity
-            foreach (IProcessable processableEntity in _processables)
+            foreach (IProcessable processableEntity in Processables)
             {
 
                 GameError error = GameError.SUCCESS;
@@ -151,7 +170,7 @@ namespace SticksAndStones.Models.GameComponents
                 _turnNumber = 0;
 
                 //process turn level actions
-                foreach(IProcessable processable in _processables)
+                foreach(IProcessable processable in Processables)
                 {
                     //check if there is a key for turn level events and get its value if there is otherwise
                     //continue loop. This should skip unneeded method calls by only calling ExecuteAction 
@@ -170,7 +189,7 @@ namespace SticksAndStones.Models.GameComponents
                 {
 
                     //process round level actions
-                    foreach (IProcessable processable in _processables)
+                    foreach (IProcessable processable in Processables)
                     {
                         //check if there is a key for round level events and get its value if there is otherwise
                         //continue loop. This should skip unneeded method calls by only calling ExecuteAction 
@@ -205,6 +224,7 @@ namespace SticksAndStones.Models.GameComponents
             }
 
             _processables.Add(processable);
+            _processablesSorted = false;
             return GameError.SUCCESS;
         }
 
