@@ -84,12 +84,6 @@ namespace SticksAndStones.Models.GameComponents.Characters
         {
             get
             {
-                if (!_alive)
-                {
-                    _decay++; //counts the number of rounds you have been dead
-                              //after 3 rounds you are no longer revivable.
-                }
-
                 _alive = _health > 0;
                 return _alive;
             }
@@ -161,6 +155,11 @@ namespace SticksAndStones.Models.GameComponents.Characters
                         _alive = false;
                     break;
                 case ProcessMode.Round:
+                    //check if player is dead and add decay if nessassary
+                    if (!_alive)
+                    {
+                        _decay++;
+                    }
 
                     //check for redirects and reduce redirect count if needed
                     if (_redirectCount != 0)
