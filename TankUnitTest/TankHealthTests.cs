@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SticksAndStones.Models.GameComponents;
 using SticksAndStones.Models.GameComponents.Characters;
 using SticksAndStones.Models.GameComponents.Moves;
 
@@ -90,7 +91,12 @@ namespace TankUnitTest
             var tank = new Tank();
             tank.TakeDamage(120, true);
             Assert.IsTrue(!tank.IsAlive, $"PRE-REVIVAL: Tank.IsAlive expected to be 'false', but returned '{tank.IsAlive}'");
-            while(!tank.IsAlive && tank.CanRevive) { }
+            
+            //simulate 3 rounds passing without being revived
+            tank.ExecuteAction(ProcessMode.Round);
+            tank.ExecuteAction(ProcessMode.Round);
+            tank.ExecuteAction(ProcessMode.Round);
+            
             tank.IsAlive = true;
             Assert.IsTrue(!tank.IsAlive, $"POST-REVIVAL: Tank.IsAlive expected to be 'false', but returned '{tank.IsAlive}'");
 
