@@ -1,4 +1,5 @@
 ﻿using SticksAndStones.Models.GameComponents.Moves;
+using SticksAndStones.Models.GameComponents.Moves.Shared;
 using SticksAndStones.Models.GameComponents.StatusEffects;
 using System;
 using System.Collections.Generic;

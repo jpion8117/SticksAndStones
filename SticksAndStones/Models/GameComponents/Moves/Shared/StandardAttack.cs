@@ -1,7 +1,7 @@
 ﻿using SticksAndStones.Models.GameComponents.Characters;
 using System;
 
-namespace SticksAndStones.Models.GameComponents.Moves
+namespace SticksAndStones.Models.GameComponents.Moves.Shared
 {
     public class StandardAttack : BaseMove
     {

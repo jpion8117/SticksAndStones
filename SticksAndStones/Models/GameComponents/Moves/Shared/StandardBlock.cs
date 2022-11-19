@@ -1,6 +1,6 @@
 ﻿using SticksAndStones.Models.GameComponents.Characters;
 
-namespace SticksAndStones.Models.GameComponents.Moves
+namespace SticksAndStones.Models.GameComponents.Moves.Shared
 {
     public class StandardBlock : BaseMove
     {
