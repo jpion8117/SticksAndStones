@@ -154,6 +154,16 @@ namespace SticksAndStones.Models.GameComponents.Characters
                     //check if player is still alive
                     if (_health <= 0)
                         _alive = false;
+
+                    //remove spent status effects
+                    foreach (var statusEffect in _statusEffects)
+                    {
+                        if (statusEffect.Completed)
+                        {
+                            _statusEffects.Remove(statusEffect);
+                        }
+                    }
+
                     break;
                 case ProcessMode.Round:
                     //check if player is dead and add decay if nessassary
