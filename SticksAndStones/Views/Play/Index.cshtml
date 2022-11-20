@@ -8,9 +8,12 @@
         Please enable JavaScript in your browser and reload this page to begin playing.
     </p>
 </noscript>
-<script>
-    $(document).ready(function()
-    {
-        document.location = '@Url.Action("SelectProfile", "Play")';
-    });
-</script>
+@section Scripts
+{
+    <script>
+        $(document).ready(function()
+        {
+            document.location = '@Url.Action("SelectProfile", "Play")';
+        });
+    </script>
+}

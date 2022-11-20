@@ -41,36 +41,39 @@
     </div>
     <button id="JoinBtn" type="submit">Join</button>
 </form>
-<script>
-    $(document).ready(function()
-    {
-        var charactorsAvailable = ["tank", "healer", "mage", "commander", "knight", "glassCannon"];
-        var party = { userID:@ViewBag.User.UserID };
-        console.log("document loaded");
-        console.log($("#ActiveLobbies").val());
-        $("ActiveLobbies").on("mouseover", function()
+@section Scripts
+{
+    <script>
+        $(document).ready(function()
         {
-            console.log("focus event");
-        });
-        $("#ActiveLobbies").on("change",function()
-        {
-            //check selection
-            var selection = $("#ActiveLobbies").val();
-
-            if(selection === "CreateNew")
+            var charactorsAvailable = ["tank", "healer", "mage", "commander", "knight", "glassCannon"];
+            var party = { userID:@ViewBag.User.UserID };
+            console.log("document loaded");
+            console.log($("#ActiveLobbies").val());
+            $("ActiveLobbies").on("mouseover", function()
             {
-                //change the text on the join button to better reflect the action
-                $("#JoinBtn").text("Create");
+                console.log("focus event");
+            });
+            $("#ActiveLobbies").on("change",function()
+            {
+                //check selection
+                var selection = $("#ActiveLobbies").val();
+
+                if(selection === "CreateNew")
+                {
+                    //change the text on the join button to better reflect the action
+                    $("#JoinBtn").text("Create");
 
                 
-            }
-            else
-            {
-                $("#JoinBtn").text("Join");
-            }
+                }
+                else
+                {
+                    $("#JoinBtn").text("Join");
+                }
+            });
         });
-    });
-    //add listener that checks for active lobbies and adds them to the list
+        //add listener that checks for active lobbies and adds them to the list
 
-    //add listener that modifys for for lobby creation.
-</script>
+        //add listener that modifys for for lobby creation.
+    </script>
+}
