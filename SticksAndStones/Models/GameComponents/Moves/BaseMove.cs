@@ -8,8 +8,8 @@ namespace SticksAndStones.Models.GameComponents.Moves
     abstract public class BaseMove : IProcessable
     {
         protected List<CharacterBase> _targets; //all players that will be effected by this move
-        protected int _maxTargets; //the number of players this move can effect
-        protected int _moveCost; //how much power the move consumes
+        //protected int _maxTargets; //the number of players this move can effect
+        //protected int _moveCost; //how much power the move consumes
         protected CharacterBase _moveExecutioner; //defines the player who is performing the move
         protected ulong _uID;
         protected bool _moveExecuted = false;
@@ -40,7 +40,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
 
             //check if there is room for target, add to list if true, return 
             //max targets exceeded error if false
-            if (_targets.Count < _maxTargets)
+            if (_targets.Count < MaxTargets)
                 _targets.Add(target);
             else
                 return GameError.MOVE_MAX_TARGETS_EXCEEDED;
@@ -85,7 +85,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
         /// <returns>True if character has enough power to perform move</returns>
         public virtual bool CheckIfValidMove()
         { 
-            return _moveExecutioner.Power - _moveCost >= 0 && _targets.Count > 0 && _targets.Count <= _maxTargets; 
+            return _moveExecutioner.Power - MoveCost >= 0 && _targets.Count > 0 && _targets.Count <= MaxTargets; 
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
         public virtual GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             //deduct move cost from executioner power level
-            _moveExecutioner.UpdatePower(-_moveCost);
+            _moveExecutioner.UpdatePower(-MoveCost);
 
             //mark move as complete
             _moveExecuted = true;
@@ -122,6 +122,12 @@ namespace SticksAndStones.Models.GameComponents.Moves
             get { return _moveExecuted; }
             set { _moveExecuted = value; }
         }
+
+        /// <summary>
+        /// How much power this move uses to execute
+        /// </summary>
+        public abstract int MoveCost { get; protected set; }
+        public abstract int MaxTargets { get; protected set; }
 
         /// <summary>
         /// *** Inherited from the IIdentifiable interface *** Retrieves the identifiable object's unique

@@ -6,7 +6,22 @@ namespace SticksAndStones.Models.GameComponents.Moves.Shared
     public class StandardAttack : BaseMove
     {
         private int _attackDamage = 10;
-        public int AttackDamage { get { return _attackDamage; } }
+        private int _moveCost;
+        private int _maxTargets;
+
+        public override int MoveCost
+        {
+            get => _moveCost;
+            protected set => _moveCost = value;
+        }
+        public override int MaxTargets
+        {
+            get => _maxTargets;
+            protected set => _maxTargets = value;
+        }
+
+        public int AttackDamage { get => _attackDamage; }
+
         public StandardAttack(CharacterBase executioner) : base(executioner)
         {
             _maxTargets = 1;                                                //Standard attacks only effect a single target
@@ -15,7 +30,6 @@ namespace SticksAndStones.Models.GameComponents.Moves.Shared
                 (int)Math.Round(_attackDamage * _moveExecutioner.AttackMultiplier, 0);   //determines the move's final attack damage
         }
 
-        public override string Type { get { return "Attack!"; } }
 
         public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {

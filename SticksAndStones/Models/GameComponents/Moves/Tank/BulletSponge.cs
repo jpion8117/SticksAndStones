@@ -6,13 +6,25 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
   /// </summary>
     public class BulletSponge : BaseMove
     {
+        private int _moveCost;
+        private int _maxTargets;
+
+        public override int MoveCost
+        {
+            get => _moveCost;
+            protected set => _moveCost = value;
+        }
+        public override int MaxTargets
+        {
+            get => _maxTargets;
+            protected set => _maxTargets = value;
+        }
+
         public BulletSponge(CharacterBase executioner) : base(executioner)
         {
             _maxTargets = 4;
             _moveCost = 5;
         }
-
-        public override string Type => "BulletSpongeMove";
 
         public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {

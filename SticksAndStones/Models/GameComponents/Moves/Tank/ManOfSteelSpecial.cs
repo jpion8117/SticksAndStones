@@ -8,14 +8,26 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
     public class ManOfSteelSpecial : BaseMove
     {
         private bool _moveRun = false;
+        private int _moveCost;
+        private int _maxTargets;
+
+        public override int MoveCost
+        {
+            get => _moveCost;
+            protected set => _moveCost = value;
+        }
+        public override int MaxTargets
+        {
+            get => _maxTargets;
+            protected set => _maxTargets = value;
+        }
+
         public ManOfSteelSpecial(CharacterBase executioner) : base(executioner)
         {
             _maxTargets = 1;
             _moveCost = 16;
             _processModes[ProcessMode.Round] = true;
         }
-
-        public override string Type => "ManOfSteelSpecialMove";
 
         public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
