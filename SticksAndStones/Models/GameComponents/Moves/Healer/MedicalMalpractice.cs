@@ -51,6 +51,9 @@ namespace SticksAndStones.Models.GameComponents.Moves.Healer
         {
             if (mode == ProcessMode.Move)
             {
+                if (!CheckIfValidMove())
+                    return GameError.MOVE_INVALID;
+
                 CharacterBase target;
 
                 if (_lawsuit)
