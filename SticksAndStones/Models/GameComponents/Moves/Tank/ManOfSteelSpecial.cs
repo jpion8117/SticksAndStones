@@ -44,7 +44,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
                         //redirect next attack to executioner
                         _targets[0].SetRedirect(_moveExecutioner);
 
-                        if (base.ExecuteAction() == GameError.SUCCESS)
+                        if (base.ExecuteCommonAction() == GameError.SUCCESS)
                         {
                             //keep move in queue to reset defense at round level
                             _moveExecuted = false;

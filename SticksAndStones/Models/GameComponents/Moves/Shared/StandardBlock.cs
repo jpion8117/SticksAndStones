@@ -33,13 +33,13 @@ namespace SticksAndStones.Models.GameComponents.Moves.Shared
                 case ProcessMode.Move:
                     _originalDefenseMultiplier = _moveExecutioner.DefenseMultiplier;
                     _moveExecutioner.DefenseMultiplier += 0.3;
-                    base.ExecuteAction();
+                    base.ExecuteCommonAction();
                     _processModes[ProcessMode.Move] = false;
                     _moveExecuted = false;
                     return GameError.SUCCESS;
                 case ProcessMode.Round:
                     _moveExecutioner.DefenseMultiplier = _originalDefenseMultiplier;
-                    return base.ExecuteAction();
+                    return base.ExecuteCommonAction();
             }
 
             return GameError.SUCCESS;

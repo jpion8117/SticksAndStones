@@ -7,11 +7,11 @@ namespace SticksAndStones.Models.GameComponents.Moves.Healer
     public class MedicalMalpractice : BaseMove
     {
         private int _rounds;
-        private int _damagePerRound;
+        private int _damagePerRound = 6;
         private int _maxTargets = 1;
         private int _moveCost = 5;
-
         bool _lawsuit = false;
+
         public MedicalMalpractice(CharacterBase executioner) : base(executioner)
         {
             var rng = new Random();
@@ -49,18 +49,23 @@ namespace SticksAndStones.Models.GameComponents.Moves.Healer
 
         public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
-            CharacterBase target;
+            if (mode == ProcessMode.Move)
+            {
+                CharacterBase target;
 
-            if (_lawsuit)
-                target = _moveExecutioner;
-            else
-                target = _targets[0];
+                if (_lawsuit)
+                    target = _moveExecutioner;
+                else
+                    target = _targets[0];
 
-            var poison = new Poison(target, _rounds, _damagePerRound);
+                var poison = new Poison(target, _rounds, _damagePerRound);
 
-            target.AddStatusEffect(poison);
+                target.AddStatusEffect(poison);
 
-            return base.ExecuteAction(mode);
+                return base.ExecuteCommonAction();
+            }
+
+            return GameError.SUCCESS;
         }
     }
 }

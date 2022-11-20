@@ -41,7 +41,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             _targets[0].UpdateHealth(10);
 
             //run the base version of the ExecuteAction method and return
-            return base.ExecuteAction() == GameError.SUCCESS ? GameError.SUCCESS : GameError.IPROCESSABLE_FAILED_EXE;
+            return base.ExecuteCommonAction() == GameError.SUCCESS ? GameError.SUCCESS : GameError.IPROCESSABLE_FAILED_EXE;
         }
 
         public override bool CheckIfValidMove()

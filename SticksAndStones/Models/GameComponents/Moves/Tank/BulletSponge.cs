@@ -39,7 +39,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             }
 
             //run the base version of the ExecuteAction method and return
-            return base.ExecuteAction() == GameError.SUCCESS ? GameError.SUCCESS : GameError.IPROCESSABLE_FAILED_EXE;
+            return base.ExecuteCommonAction() == GameError.SUCCESS ? GameError.SUCCESS : GameError.IPROCESSABLE_FAILED_EXE;
         }
 
         public override bool CheckIfValidMove()

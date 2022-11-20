@@ -36,7 +36,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             var damage = GetMoveAdjustedDamage(_attackDamage);
             _targets[0].TakeDamage(damage);
 
-            return base.ExecuteAction();
+            return base.ExecuteCommonAction();
         }
     }
 }

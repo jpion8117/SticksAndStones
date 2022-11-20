@@ -94,7 +94,9 @@ namespace SticksAndStones.Models.GameComponents.Moves
         /// enemies.
         /// </summary>
         /// <returns>GameError code indicating either success or an error occured</returns>
-        public virtual GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
+        public abstract GameError ExecuteAction(ProcessMode mode = ProcessMode.Move);
+
+        protected virtual GameError ExecuteCommonAction()
         {
             //deduct move cost from executioner power level
             _moveExecutioner.UpdatePower(-MoveCost);
