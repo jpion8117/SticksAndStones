@@ -10,12 +10,6 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
         protected bool _activeEffect;
         protected bool _negative;
         protected Dictionary<ProcessMode, bool> _processModes = new Dictionary<ProcessMode, bool>();
-
-        /// <summary>
-        /// Provides access to each status effect's group ID (shared among all instances of 
-        /// that given effect) which is auto-assigned at runtime
-        /// </summary>
-        abstract public int EffectGroupID { get; }
         
         /// <summary>
         /// Marks whether the effect of the status effect is a net negative for the entity it is 
@@ -31,8 +25,6 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
             get { return _uID; }
         }
 
-        public object IdentifiableObject { get { return this; } }
-
         public bool Completed { get { return !_activeEffect; } } //true when effect marked inactive
 
         public int Priority { get { return 2; } }
@@ -41,10 +33,13 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
         /// this constructor has 1 job, make sure every status effect instanciated
         /// has a unique ID assigned at runtime to keep track of them
         /// </summary>
-        protected BaseStatusEffect()
+        protected BaseStatusEffect(CharacterBase target)
         {
+            _target = target;
             _uID = UniqueIDGenerator.GetID(this);
-            _processModes.Add(ProcessMode.Move, true);
+            _processModes[ProcessMode.Move] = false;
+            _processModes[ProcessMode.Turn] = false;
+            _processModes[ProcessMode.Round] = true;
         }
 
         /// <summary>
@@ -57,14 +52,13 @@ namespace SticksAndStones.Models.GameComponents.StatusEffects
         }
 
         /// <summary>
-        /// used to combine the effects of 2 different statuses into one if applicable.
+        /// Defines how status effects behave when two effects are applied to the same 
+        /// character based on the specific effect.
         /// </summary>
         /// <param name="effect">Incomming status effect</param>
-        public abstract GameError StackEffect(BaseStatusEffect effect);
+        public abstract void StackEffect(BaseStatusEffect effect);
 
         public abstract GameError ExecuteAction(ProcessMode mode = ProcessMode.Move);
-
-        public abstract string Type { get; }
 
         public Dictionary<ProcessMode, bool> ProcessModesUsed => _processModes;
     }
