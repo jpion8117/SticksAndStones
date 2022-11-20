@@ -146,7 +146,7 @@ namespace TankUnitTest
             //create test characters and configure
             var speciminA = new Tank();
             var speciminB = new Tank();
-            speciminA.updatePower(3);
+            speciminA.UpdatePower(3);
 
             //create move instance and set target
             var move = new BloodDonor(speciminA);
@@ -212,7 +212,7 @@ namespace TankUnitTest
         public void Test007_ManOfSteelSpecial()
         {
             var speciminA = new Tank();
-            speciminA.updatePower(10);
+            speciminA.UpdatePower(10);
             var speciminB = new Tank();
 
             var move = new ManOfSteelSpecial(speciminA);

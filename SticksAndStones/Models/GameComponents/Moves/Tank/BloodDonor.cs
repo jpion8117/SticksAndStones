@@ -25,7 +25,7 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             _moveExecutioner.TakeDamage(15, true);
 
             //add 10 health to target
-            _targets[0].updateHealth(10);
+            _targets[0].UpdateHealth(10);
 
             //run the base version of the ExecuteAction method and return
             return base.ExecuteAction() == GameError.SUCCESS ? GameError.SUCCESS : GameError.IPROCESSABLE_FAILED_EXE;

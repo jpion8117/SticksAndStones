@@ -97,7 +97,7 @@ namespace SticksAndStones.Models.GameComponents.Moves
         public virtual GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
             //deduct move cost from executioner power level
-            _moveExecutioner.updatePower(-_moveCost);
+            _moveExecutioner.UpdatePower(-_moveCost);
 
             //mark move as complete
             _moveExecuted = true;
@@ -128,19 +128,6 @@ namespace SticksAndStones.Models.GameComponents.Moves
         /// runtime ID.
         /// </summary>
         public ulong UniqueID { get { return _uID; } }
-
-        /// <summary>
-        /// *** Inherited from the IIdentifiable interface*** Retrieves the base object from an 
-        /// IIdentifiable object, this can be used with the type property to cast into the correct 
-        /// type and access full functionality if needed.
-        /// </summary>
-        public object IdentifiableObject { get { return this; } }
-
-        /// <summary>
-        /// *** Inherited from the IIdentifiable interface *** String used to identify an IIdentifiable object's
-        /// type for casting purposes if needed.
-        /// </summary>
-        abstract public string Type { get; }
 
         public Dictionary<ProcessMode, bool> ProcessModesUsed => _processModes;
 

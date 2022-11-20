@@ -108,10 +108,10 @@ namespace TankUnitTest
             var tank = new Tank();
             tank.TakeDamage(50, true);
             Assert.IsTrue(tank.Health == 50, $"PRE HEALING: tank expected health was 50HP, but resulted was {tank.Health}");
-            tank.updateHealth(20);
+            tank.UpdateHealth(20);
             Assert.IsTrue(tank.Health == 70, $"POST FIRST HEALING: tank expected health was 100HP, but resulted " +
                 $"was {tank.Health}");
-            tank.updateHealth(100);
+            tank.UpdateHealth(100);
             Assert.IsTrue(tank.Health == 100, $"POST SECOND HEALING: tank expected health was 100HP, but resulted " +
                 $"was {tank.Health}");
         }

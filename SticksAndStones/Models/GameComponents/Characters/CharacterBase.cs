@@ -21,24 +21,8 @@ namespace SticksAndStones.Models.GameComponents.Characters
         protected CharacterBase _redirectAttackTarget;
         protected List<BaseMove> _moveList;
         protected Dictionary<ProcessMode, bool> _processModes = new Dictionary<ProcessMode, bool>();
+        protected List<BaseStatusEffect> _statusEffects = new List<BaseStatusEffect>();
         private ulong _partyID;
-
-        public CharacterBase()
-        {
-            _id = UniqueIDGenerator.GetID(this);
-            _power = 10;
-            _maxPower = 20;
-            _alive = true;
-            _decay = 0;
-            _redirectCount = 0;
-            _redirectAttackTarget = null;
-            _partyID = 0;
-            _moveList = new List<BaseMove>();
-            _moveList.Add(new StandardAttack(this));
-            _moveList.Add(new StandardBlock(this));
-            _processModes.Add(ProcessMode.Move, true);
-            _processModes.Add(ProcessMode.Round, true);
-        }
 
         /// <summary>
         /// Unique player ID loaded from thier user account and used internally to identify
@@ -61,7 +45,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
                 }
                 else
                 { 
-                    _partyID = UniqueIDGenerator.GetIdentifiableByID(value).Type == "Party" ? value : 0;
+                    _partyID = UniqueIDGenerator.GetIdentifiableByID(value).GetType().Name == "Party" ? value : 0;
                 }
             } 
         }
@@ -115,6 +99,27 @@ namespace SticksAndStones.Models.GameComponents.Characters
                                                         //queue
         public int Priority { get { return 100; } } //effects and other things that may effect
 
+        public Dictionary<ProcessMode, bool> ProcessModesUsed => _processModes;
+
+        public List<BaseStatusEffect> StatusEffects { get => _statusEffects; }
+
+        public CharacterBase()
+        {
+            _id = UniqueIDGenerator.GetID(this);
+            _power = 10;
+            _maxPower = 20;
+            _alive = true;
+            _decay = 0;
+            _redirectCount = 0;
+            _redirectAttackTarget = null;
+            _partyID = 0;
+            _moveList = new List<BaseMove>();
+            _moveList.Add(new StandardAttack(this));
+            _moveList.Add(new StandardBlock(this));
+            _processModes.Add(ProcessMode.Move, true);
+            _processModes.Add(ProcessMode.Round, true);
+        }
+
         public CharacterBase RedirectAttackTarget
         {
             get 
@@ -140,10 +145,6 @@ namespace SticksAndStones.Models.GameComponents.Characters
             _redirectAttackTarget = redirectTarget;
             _redirectCount = numberOfRedirects;
         }
-
-        public string Type { get { return "Player"; } }
-
-        public object IdentifiableObject { get { return this; } }
 
         public GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {
@@ -201,8 +202,6 @@ namespace SticksAndStones.Models.GameComponents.Characters
             }
         }
 
-        public Dictionary<ProcessMode, bool> ProcessModesUsed => _processModes;
-
         /// <summary>
         /// Used for both attack (negative health effects) and healing (positive health effects) moves. When supplied a
         /// negative value (an attack) method will factor in character's defense level to calculate the final damage 
@@ -210,7 +209,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
         /// </summary>
         /// <param name="changeAmount">Amount of health change requested</param>
         /// <returns>Game error or success code</returns>
-        public GameError updateHealth(int changeAmount)
+        public GameError UpdateHealth(int changeAmount)
         {
             if (changeAmount < 0) //indicates an attack action
                 return GameError.GENERAL_ARGUMENT_TOO_LOW;
@@ -266,7 +265,7 @@ namespace SticksAndStones.Models.GameComponents.Characters
         /// </summary>
         /// <param name="changeAmount">Amount of power change</param>
         /// <returns>GameError error or success code</returns>
-        public GameError updatePower(int changeAmount)
+        public GameError UpdatePower(int changeAmount)
         {
             if (_power + changeAmount < 0)
             {
@@ -279,6 +278,21 @@ namespace SticksAndStones.Models.GameComponents.Characters
 
             _power += changeAmount;
             return GameError.SUCCESS;
+        }
+
+        public void AddStatusEffect(BaseStatusEffect statusEffect)
+        {
+            foreach (BaseStatusEffect effect in _statusEffects)
+            {
+                //if the status effect is already in the player's status effects stack the effect
+                if(effect.GetType() == statusEffect.GetType())
+                {
+                    effect.StackEffect(statusEffect);
+                    return;
+                }
+            }
+
+            _statusEffects.Add(statusEffect);
         }
     }
 }
