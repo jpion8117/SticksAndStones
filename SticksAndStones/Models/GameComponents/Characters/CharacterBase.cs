@@ -33,6 +33,16 @@ namespace SticksAndStones.Models.GameComponents.Characters
             get { return _id; }
         }
 
+        /// <summary>
+        /// Maximum amount of health a character can have
+        /// </summary>
+        public int MaxHealth  => _health;
+
+        /// <summary>
+        /// Maximum amount of power a character can have
+        /// </summary>
+        public int MaxPower => _power;
+
         public ulong PartyID 
         { 
             get { return _partyID; }
