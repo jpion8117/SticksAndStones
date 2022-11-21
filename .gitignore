@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /SticksAndStones/Views/Shared/_Layout_Backup_2022.11.20.cshtml
 /SticksAndStones/Views/Shared/_Layout_Backup_2022.11.20.cshtml.backup
+*.backup

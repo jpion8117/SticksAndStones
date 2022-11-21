@@ -2,29 +2,19 @@
     Layout = "_Layout";
     ViewData["Title"] = "Welcome To Sticks & Stones!";
 }
-
-<div class="text-center row bg-dark text-white">
-    <h1 class="display-4 col-12">Sticks and Stones May Break my Bones!</h1>
-    <h2 class="col-12">But words... they... they may actually hurt you here...</h2>
+<div class="row">
+    <header class="col-12">
+        <h1>Sticks &amp; Stones</h1>
+    </header>
 </div>
-<div class="row mt-2">
-    <div class="col-md-2"><!-- SPACER --></div>
-    <p class="col-md-4">Welcome to Sticks and Stones! The online, turn based, fighting game where you battle 
-        real human opponents in a turn based battle game! In this game you will use your words to summon 
-        powerfull attacks and defensive measures against your opponent. Pick from one of 3 different classes
-        and take on your foes in the ultimate battle of strategy and wit...
-    </p>
-    <figure class="col-md-4">
-        <img src="~/images/yesDice.jpg" alt="A whole boatload of dice characteristic of an RPG game" 
-            class="img-fluid rounded-circle"/>
-        <figcaption class="text-muted">"GenCon Dice Haul #1" by WilWheaton is licensed under CC BY-NC-SA 2.0.</figcaption>
-    </figure>
-    <div class="col-md-2"><!-- SPACER --></div>
-</div>
-<div class="row align-content-center">
-    <div class="col-md-3"><!-- SPACER --></div>
-    <a class="col-md-6 bg-success text-capitalize text-white btn-outline-dark 
-        rounded-pill p-3" style="width:100%" asp-controller="Play" 
-        asp-action="Index">Play Now <i class="fa-solid fa-play"></i></a>
-    <div class="col-md-2"><!-- SPACER --></div>
+<div class="row">
+    <div class="col-7">
+        <h2>Tagline Here...</h2>
+        <img src="~/images/LogoPlaceholder.png" class="img-fluid" style="width:100%; max-width:400px" />
+    </div>
+    <div class="col-5">
+        <a asp-action="Index" asp-controller="Play" class="play-btn btn btn-primary text-center mt-2 pl-3 pr-3">Play!</a>
+        <br />
+        <a asp-action="Tutorial" asp-controller="Play" class="text-center">Play Tutorial</a>
+    </div>
 </div>
