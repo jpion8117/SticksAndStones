@@ -131,6 +131,9 @@ namespace SticksAndStones.Models.GameComponents.Moves
         public abstract int MoveCost { get; protected set; }
         public abstract int MaxTargets { get; protected set; }
 
+        public abstract string DisplayName { get; }
+        public abstract string FlavorText { get; }
+
         /// <summary>
         /// *** Inherited from the IIdentifiable interface *** Retrieves the identifiable object's unique
         /// runtime ID.

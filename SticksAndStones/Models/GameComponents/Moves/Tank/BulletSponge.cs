@@ -19,6 +19,11 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             get => _maxTargets;
             protected set => _maxTargets = value;
         }
+        public override string DisplayName => "Cannon Fodder";
+        public override string FlavorText => $"♪ Ow, He’s a brick… Waaaalll. ♪ Absorb all " +
+            $"attacks thrown at your team for the next round! This includes any effects " +
+            $"those attacks might have that will linger for multiple rounds. -- {_moveCost} " +
+            $"POW";
 
         public BulletSponge(CharacterBase executioner) : base(executioner)
         {

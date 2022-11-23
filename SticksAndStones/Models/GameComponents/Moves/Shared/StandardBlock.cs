@@ -18,6 +18,10 @@ namespace SticksAndStones.Models.GameComponents.Moves.Shared
             get => _maxTargets;
             protected set => _maxTargets = value;
         }
+        public override string DisplayName => "Block";
+        public override string FlavorText => $"Forfeit your turn and block 30% more damage " +
+            $"next round who knows that extra time to think may be beneficial to your " +
+            $"strategy (recover 1 additional POW) -- 0 POW";
 
         public StandardBlock(CharacterBase executioner) : base(executioner)
         {

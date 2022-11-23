@@ -21,6 +21,11 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             get => _maxTargets;
             protected set => _maxTargets = value;
         }
+        public override string DisplayName => "Body Slam";
+        public override string FlavorText => $"[Generic large rage monster] shatter! You big… " +
+            $"smash puny enemy… Attack an enemy with a simple body slam you seemingly learned " +
+            $"from some wrestling show. You know those are scripted right??? Deal 12 damage " +
+            $"to one enemy -- {_moveCost} POW";
 
         public BodySlam(CharacterBase executioner) : base(executioner)
         {

@@ -20,6 +20,11 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             get => _maxTargets;
             protected set => _maxTargets = value;
         }
+        public override string DisplayName => "Blood Donor";
+        public override string FlavorText => $"A friend in need… Give one party member the " +
+            $"extra boost they need by donating blood today! Heal a party member 10 HP at " +
+            $"the expense of 15 of your own HP (sorry, we spilled some in " +
+            $"transit) -- {_moveCost} POW";
 
         public BloodDonor(CharacterBase executioner) : base(executioner)
         {

@@ -44,8 +44,12 @@ namespace SticksAndStones.Models.GameComponents.Moves.Healer
         public override int MaxTargets 
         { 
             get => _maxTargets; 
-            protected set => _maxTargets = value; 
+            protected set => _maxTargets = value;
         }
+        public override string DisplayName => "Medical Malpractice";
+        public override string FlavorText => $"Just because they're your enemy doesn't mean you can't 'help' them out " +
+            $"some... Mistakes do happen... Poison an enemy for 1-3 turns dealing 6hp defense ignoring damage. Beware " +
+            $"of lawsuits though. (1/100 chance of poisoning yourself) --{_moveCost}POW";
 
         public override GameError ExecuteAction(ProcessMode mode = ProcessMode.Move)
         {

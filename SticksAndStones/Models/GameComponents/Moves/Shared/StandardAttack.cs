@@ -19,6 +19,10 @@ namespace SticksAndStones.Models.GameComponents.Moves.Shared
             get => _maxTargets;
             protected set => _maxTargets = value;
         }
+        public override string DisplayName => "Basic Attack";
+        public override string FlavorText => $"No frills standard attack that’s affected by " +
+            $"your attack multiplier. Does minimal damage to one enemy, but you get what " +
+            $"you pay for. -- 0 POW";
 
         public int AttackDamage { get => _attackDamage; }
 

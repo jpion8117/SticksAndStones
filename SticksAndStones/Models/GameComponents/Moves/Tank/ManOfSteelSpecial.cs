@@ -21,6 +21,12 @@ namespace SticksAndStones.Models.GameComponents.Moves.Tank
             get => _maxTargets;
             protected set => _maxTargets = value;
         }
+        public override string DisplayName => "Man of Enhanced Metal (Special)";
+        public override string FlavorText => $"It’s a tufted puffin, it’s a dirigible, it’s " +
+            $"Supper Man here to eat your dinner and legally distinct from any existing IP. " +
+            $"Oh… he’ll also block the next attack from hitting you I suppose. Shield one " +
+            $"party member from the next attack and up your own defense by 50%! -- " +
+            $"{_moveCost} POW";
 
         public ManOfSteelSpecial(CharacterBase executioner) : base(executioner)
         {
