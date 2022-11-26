@@ -1,20 +1,51 @@
 ﻿@{
     Layout = "_Layout";
     ViewData["Title"] = "Welcome To Sticks & Stones!";
+
+    //quick access to alt text for links and images on home page
+    Dictionary<string, string> altText = new Dictionary<string, string>();
+    altText["Logo"] = "Sticks and Stones!";
+    altText["PlayGame"] = "Find or create a lobby and begin playing.";
+    altText["Tutorial"] = "Learn to play in a simulated match.";
+    altText["CharacterInfo"] = "View character descriptions and move lists.";
 }
-<div class="row">
+@section AdditionalCSS {
+    <style>
+        body {
+            background-color: var(--primary-background);
+            height: 100%;
+            overflow:hidden;
+        }
+        footer {
+            position: fixed!important;
+            background-color: var(--secondary-background);
+        }
+        .border-top {
+            border-top: 0px !important;
+        }
+    </style>
+}
+<div class="row home">
     <header class="col-12">
-        <h1>Sticks &amp; Stones</h1>
+        <h1 class="mark">Sticks &amp; Stones</h1>
     </header>
 </div>
-<div class="row">
-    <div class="col-7">
+<div class="row home">
+    <div class="col-7 align-content-center text-center">
         <h2>Tagline Here...</h2>
-        <img src="~/images/LogoPlaceholder.png" class="img-fluid" style="width:100%; max-width:400px" />
+        <img src="~/images/LogoPlaceholder.png" class="img-fluid" style="width:100%; max-width:400px" alt="@altText["Logo"]" title="@altText["Logo"]" />
     </div>
-    <div class="col-5">
-        <a asp-action="Index" asp-controller="Play" class="play-btn btn btn-primary text-center mt-2 pl-3 pr-3">Play!</a>
-        <br />
-        <a asp-action="Tutorial" asp-controller="Play" class="text-center">Play Tutorial</a>
-    </div>
+    <ul class="col-5 nav nav-home">
+        <li>
+            <a asp-action="Index" asp-controller="Play" class="btn btn-play btn-home btn-light text-center mt-2 pl-3 pr-3" 
+                title="@altText["PlayGame"]">Play!</a>
+        </li>
+        <li><hr /></li>
+        <li>
+            <a asp-action="Tutorial" asp-controller="Play" class="text-center btn btn-home btn-light" title="@altText["Tutorial"]">Play Tutorial</a>
+        </li>
+        <li>
+            <a asp-action="Characters" asp-controller="GameInfo" class="text-center btn btn-home btn-light" title="@altText["CharacterInfo"]">Warrior Info</a>
+        </li>
+    </ul>
 </div>

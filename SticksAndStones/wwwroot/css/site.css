@@ -1,6 +1,23 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+/* Site settings
+ ------------------------------------------------- */
+:root {
+    --primary-background: #394032;
+    --secondary-background: #62A87C;
+    --primary-foreground: #C3F3C0;
+    --secondary-foreground: #37392E;
+    --highlight: #7EE081;
+}
+
+/* Custom fonts
+ ------------------------------------------------- */
+@font-face {
+    font-family: "rubikDistressed";
+    src:url("../fonts/RubikDistressed-Regular.ttf");
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -50,6 +67,9 @@ button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
+.row {
+    margin: 0px;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -61,6 +81,8 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  background-color: var(--primary-background);
+  color: var(--primary-foreground);
 }
 .footer {
   position: absolute;
@@ -72,9 +94,34 @@ body {
 
 /* Home Index Styles
 -------------------------------------------------- */
-.play-btn {
+.home {
+    background-color: var(--primary-background);
+    overflow: hidden;
+}
+.mark {
+    font-family: rubikDistressed;
+    background-color: var(--primary-background);
+}
+.btn-home {
     display: block;
-    background-color: forestgreen;
+    background-color: var(--highlight);
     width: 70%;
     margin-left: 15%;
+    margin-bottom: 8px;
+    color: var(--primary-background);
+}
+.btn-play {
+    font-size: 1.2em;
+    padding-top: 1.2em;
+    padding-bottom: 1.2em;
+}
+.nav-home {
+    display:inline-block;
+    background-color: var(--secondary-background);
+    padding-bottom:100%;
+    overflow:hidden
+}
+.home-main {
+    overflow: clip;
+    height: 5000px;
 }
