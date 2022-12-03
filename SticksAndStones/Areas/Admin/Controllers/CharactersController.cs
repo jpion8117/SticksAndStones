@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SticksAndStones.Models.DAL;
+using SticksAndStones.Areas.Admin.Models;
 
 namespace SticksAndStones.Areas.Admin
 {
@@ -20,9 +21,9 @@ namespace SticksAndStones.Areas.Admin
         }
 
         // GET: Admin/Characters
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await _context.Characters.ToListAsync());
+            return View(new CharacterViewModel(_context.Characters.ToList(), _context.Moves));
         }
 
         // GET: Admin/Characters/Details/5

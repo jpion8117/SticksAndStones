@@ -92,9 +92,25 @@ namespace SticksAndStones.Models.GameComponents
                 return _bParty.User.UserName;
             }
         }
-        public string Type { get { return "Lobby"; } }
 
-        public object IdentifiableObject { get { return this; } }
+        public Lobby(LobbyRegistration registrationTicket, List<CharacterBase> characters)
+        {
+            _registration = registrationTicket;
+
+            //if this is a new lobby GuestId will be null
+            if (registrationTicket.GuestId == null)
+            {
+                _aParty = new Party(registrationTicket.HostUser, characters.ToArray());
+                _activeParty = _aParty;
+                _activeLobbies.Add(this);
+                return;
+            }
+
+            //if this is a guest joining the lobby will be modified
+            var lobby = GetLobbyByID(registrationTicket.LobbyId);
+            lobby._bParty = new Party(registrationTicket.GuestUser, characters.ToArray());
+            lobby._inactiveParty = _bParty;
+        }
 
         /// <summary>
         /// Processes all data between turns including: Applying any status effects, 

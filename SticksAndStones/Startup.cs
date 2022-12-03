@@ -18,6 +18,7 @@ namespace SticksAndStones
 {
     public class Startup
     {
+        private bool _productionEnvironment = false;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -39,6 +40,28 @@ namespace SticksAndStones
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.Configure<IdentityOptions>(options =>
+            {
+                if (Configuration.GetSection("ProductionEnvironment").Value == "true")
+                {
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequiredLength = 10;
+                    options.Password.RequiredUniqueChars = 3;
+                }
+                else // I can't be asked to remember more passwords for testing...
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 1;
+                    options.Password.RequiredUniqueChars = 0;
+                }
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +88,11 @@ namespace SticksAndStones
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                        name: "admin",
+                        areaName: "Admin",
+                        pattern: "Admin/{controller=Home}/{action=Index}/{id?}"
+                    );
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

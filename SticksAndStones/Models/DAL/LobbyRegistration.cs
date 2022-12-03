@@ -13,7 +13,8 @@ namespace SticksAndStones.Models.DAL
         [MaxLength(20, ErrorMessage = "Lobby names are limited to 20 characters.")]
         public string LobbyName { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        [NotMapped]
+        public bool Joinable { get => GuestId == null && HostId != null; }
         
         public string HostId { get; set; }
         public User HostUser { get; set; }
