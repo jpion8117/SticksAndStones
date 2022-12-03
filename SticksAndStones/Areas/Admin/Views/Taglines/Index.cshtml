@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SticksAndStones.Models.DAL.Tagline>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Authorized)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SuggestedById)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorizedById)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Authorized)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SuggestedById)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorizedById)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TaglineId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TaglineId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TaglineId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

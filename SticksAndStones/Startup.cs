@@ -31,7 +31,7 @@ namespace SticksAndStones
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<PlayerDataContext>(options =>
+            services.AddDbContext<SiteDataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRouting(options =>
                 { options.AppendTrailingSlash = true; options.LowercaseUrls = true; });

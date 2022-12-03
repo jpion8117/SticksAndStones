@@ -1,29 +1,24 @@
 ﻿using SticksAndStones.Models.GameComponents.Characters;
+using SticksAndStones.Models.DAL;
 using System;
 using System.Collections.Generic;
 
 namespace SticksAndStones.Models.GameComponents
 {
-    public class Lobby : IIdentifiable
+    public class Lobby
     {
         private Party _aParty;
         private Party _bParty;
         private Party _activeParty;
         private Party _inactiveParty;
+        private LobbyRegistration _registration;
         private uint _roundNumber;
         private uint _turnNumber;
-        private ulong _uID;
         private uint _partySize;
         private List<IProcessable> _processables;
         private bool _processablesSorted = false;
 
         private static List<Lobby> _activeLobbies = new List<Lobby>();
-
-
-        /// <summary>
-        /// gets the lobby's uniqueID.
-        /// </summary>
-        public ulong UniqueID { get { return _uID; } }
 
         /// <summary>
         /// Indicates which round the game is currently on.
@@ -87,14 +82,14 @@ namespace SticksAndStones.Models.GameComponents
         {
             get
             {
-                return _aParty.User.Username;
+                return _aParty.User.UserName;
             }
         }
         public string PlayerBName
         {
             get
             {
-                return _bParty.User.Username;
+                return _bParty.User.UserName;
             }
         }
         public string Type { get { return "Lobby"; } }
@@ -185,7 +180,7 @@ namespace SticksAndStones.Models.GameComponents
                 }
 
                 //if party a is now the active party, incriment round number.
-                if (_aParty.User.UserID == _activeParty.User.UserID)
+                if (_aParty.User.Id == _activeParty.User.Id)
                 {
 
                     //process round level actions
@@ -241,11 +236,11 @@ namespace SticksAndStones.Models.GameComponents
 
             return GameError.GENERAL_UNIQUE_ID_NOT_FOUND;
         }
-        static public Lobby GetLobbyByID(ulong id)
+        static public Lobby GetLobbyByID(int id)
         {
             foreach (Lobby lobby in _activeLobbies)
             {
-                if(lobby.UniqueID == id)
+                if(lobby._registration.LobbyId == id)
                 {
                     return lobby;
                 }

@@ -8,16 +8,16 @@ namespace SticksAndStones.Controllers
 {
     public class PlayController : Controller
     {
-        protected PlayerDataContext _playerData;
+        protected SiteDataContext _playerData;
 
-        public PlayController(PlayerDataContext context)
+        public PlayController(SiteDataContext context)
         {
             _playerData = context;
         }
         [HttpGet]
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(SelectProfile));
+            return RedirectToAction(nameof(SelectLobby));
         }
         [HttpPost]
         public IActionResult Index(int userID)
@@ -25,37 +25,16 @@ namespace SticksAndStones.Controllers
             User u = _playerData.Users.Find(userID);
             return View(u);
         }
-        public IActionResult SelectProfile()
-        {
-            List<User> users = _playerData.Users
-                .Where(status => !status.IsActive)
-                .OrderBy(user => user.Username)
-                .ToList();
-
-            //if no inactive users are available
-            if (users.Count == 0)
-            {
-                return RedirectToAction("Create", "User");
-            }
-
-            ViewBag.InactiveProfiles = users;
-            return View(new User());
-        }
+       
         public IActionResult SelectLobby(int userID)
         {
             //get the user profile from the database
             User user = _playerData.Users.Find(userID);
 
-            //check if user wasn't found or if user is already in use
-            if (user == null || user.IsActive)
-            {
-                return RedirectToAction("SelectProfile", "Play");
-            }
-
             return View(user);
         }
         [HttpPost]
-        public IActionResult SticksAndStones(ulong lobbyID)
+        public IActionResult SticksAndStones(int lobbyID)
         {
             Lobby lobby = Lobby.GetLobbyByID(lobbyID);
             return View(lobby);
@@ -67,29 +46,13 @@ namespace SticksAndStones.Controllers
             return Json(user);
         }
         [HttpPost]
-        public void LockUser(int id)
-        {
-            User u = _playerData.Users.Find(id);
-            u.IsActive = true;
-            _playerData.Users.Update(u);
-            _playerData.SaveChanges();
-        }
-        [HttpPost]
-        public void unlockUser(int id)
-        {
-            User u = _playerData.Users.Find(id);
-            u.IsActive = false;
-            _playerData.Users.Update(u);
-            _playerData.SaveChanges();
-        }
-        [HttpPost]
-        public JsonResult CheckIn(ulong lobbyID)
+        public JsonResult CheckIn(int lobbyID)
         {
             Lobby lobby = Lobby.GetLobbyByID(lobbyID);
             return Json(lobby);
         }
         [HttpPost]
-        public JsonResult GetLobbyInfo(ulong lobbyID)
+        public JsonResult GetLobbyInfo(int lobbyID)
         {
             return Json(Lobby.GetLobbyByID(lobbyID));
         }
