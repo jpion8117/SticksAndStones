@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SticksAndStones.Models.DAL
@@ -59,7 +60,7 @@ namespace SticksAndStones.Models.DAL
                     _banned = false;
                     _bannedDate = DateTime.Now;
                 }
-
+   
                 return _banned;
             }
             set
@@ -92,5 +93,17 @@ namespace SticksAndStones.Models.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// All taglines suggested by this user
+        /// </summary>
+        [InverseProperty("SuggestedByUser")]
+        public ICollection<Tagline> TaglinesSuggested { get; set; }
+
+        /// <summary>
+        /// All taglines approved by this user
+        /// </summary>
+        [InverseProperty("AuthorizedByUser")]
+        public ICollection<Tagline> TaglinesAuthorized { get; set; }
     }
 }
