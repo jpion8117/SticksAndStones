@@ -7,6 +7,6 @@ namespace SticksAndStones.Models.DAL
         public int CharacterId { get; set; }
         public string Name { get; set; }
         public string Flavortext { get; set; }
-        public ICollection<Move> Moves { get; set; }
+        public virtual ICollection<Move> Moves { get; set; }
     }
 }

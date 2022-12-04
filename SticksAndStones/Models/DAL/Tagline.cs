@@ -15,11 +15,11 @@ namespace SticksAndStones.Models.DAL
 
         [ForeignKey("SuggestedById")]
         [InverseProperty("TaglinesSuggested")]
-        public User SuggestedByUser { get; set; }
+        public virtual User SuggestedByUser { get; set; }
         public string AuthorizedById { get; set; }
 
         [ForeignKey("AuthorizedById")]
         [InverseProperty("TaglinesAuthorized")]
-        public User AuthorizedByUser { get; set; }
+        public virtual User AuthorizedByUser { get; set; }
     }
 }

@@ -98,13 +98,13 @@ namespace SticksAndStones.Models.DAL
         /// All taglines suggested by this user
         /// </summary>
         [InverseProperty("SuggestedByUser")]
-        public ICollection<Tagline> TaglinesSuggested { get; set; }
+        public virtual ICollection<Tagline> TaglinesSuggested { get; set; }
 
         /// <summary>
         /// All taglines approved by this user
         /// </summary>
         [InverseProperty("AuthorizedByUser")]
-        public ICollection<Tagline> TaglinesAuthorized { get; set; }
+        public virtual ICollection<Tagline> TaglinesAuthorized { get; set; }
 
         [NotMapped]
         public LobbyRegistration CurrentLobby
@@ -125,9 +125,9 @@ namespace SticksAndStones.Models.DAL
         }
 
         public int? HostId { get; set; }
-        public LobbyRegistration HostLobby { get; set; }
+        public virtual LobbyRegistration HostLobby { get; set; }
 
         public int? GuestId { get; set; }
-        public LobbyRegistration GuestLobby { get; set; }
+        public virtual LobbyRegistration GuestLobby { get; set; }
     }
 }

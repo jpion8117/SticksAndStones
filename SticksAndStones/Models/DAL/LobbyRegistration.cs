@@ -18,9 +18,9 @@ namespace SticksAndStones.Models.DAL
         public bool Joinable { get => GuestId == null && HostId != null; }
 
         public string HostId { get; set; }
-        public User HostUser { get; set; }
+        public virtual User HostUser { get; set; }
 
         public string GuestId { get; set; }
-        public User GuestUser { get; set; }
+        public virtual User GuestUser { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace SticksAndStones.Models.DAL
         public int EffectId { get; set; }
         public string Name { get; set; }
         public string Flavortext { get; set; }
-        public ICollection<MoveEffect> MoveEffects { get; set; }
+        public virtual ICollection<MoveEffect> MoveEffects { get; set; }
     }
 }
