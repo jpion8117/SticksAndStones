@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SticksAndStones.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class brokeEverythingStartedClean : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,7 +40,6 @@ namespace SticksAndStones.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    UserNumber = table.Column<decimal>(nullable: false),
                     GamesPlayed = table.Column<int>(nullable: false),
                     GamesWon = table.Column<int>(nullable: false),
                     Banned = table.Column<bool>(nullable: false),
@@ -57,7 +56,8 @@ namespace SticksAndStones.Migrations
                 {
                     CharacterId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Flavortext = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,7 +70,8 @@ namespace SticksAndStones.Migrations
                 {
                     EffectId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Flavortext = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,16 +79,16 @@ namespace SticksAndStones.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Moves",
+                name: "Lobbies",
                 columns: table => new
                 {
-                    MoveId = table.Column<int>(nullable: false)
+                    LobbyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    LobbyName = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Moves", x => x.MoveId);
+                    table.PrimaryKey("PK_Lobbies", x => x.LobbyId);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,8 +137,8 @@ namespace SticksAndStones.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -181,8 +182,8 @@ namespace SticksAndStones.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -205,25 +206,68 @@ namespace SticksAndStones.Migrations
                     Content = table.Column<string>(nullable: false),
                     Authorized = table.Column<bool>(nullable: false),
                     SuggestedById = table.Column<string>(nullable: true),
-                    SuggestedByUserId = table.Column<string>(nullable: true),
-                    AuthorizedById = table.Column<string>(nullable: true),
-                    AuthorizedByUserId = table.Column<string>(nullable: true)
+                    AuthorizedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Taglines", x => x.TaglineId);
                     table.ForeignKey(
-                        name: "FK_Taglines_AspNetUsers_AuthorizedByUserId",
-                        column: x => x.AuthorizedByUserId,
+                        name: "FK_Taglines_AspNetUsers_AuthorizedById",
+                        column: x => x.AuthorizedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Taglines_AspNetUsers_SuggestedByUserId",
-                        column: x => x.SuggestedByUserId,
+                        name: "FK_Taglines_AspNetUsers_SuggestedById",
+                        column: x => x.SuggestedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Moves",
+                columns: table => new
+                {
+                    MoveId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Flavortext = table.Column<string>(nullable: true),
+                    CharacterId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Moves", x => x.MoveId);
+                    table.ForeignKey(
+                        name: "FK_Moves_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "CharacterId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MoveEffect",
+                columns: table => new
+                {
+                    MoveId = table.Column<int>(nullable: false),
+                    EffectId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MoveEffect", x => new { x.MoveId, x.EffectId });
+                    table.ForeignKey(
+                        name: "FK_MoveEffect_Effects_EffectId",
+                        column: x => x.EffectId,
+                        principalTable: "Effects",
+                        principalColumn: "EffectId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MoveEffect_Moves_MoveId",
+                        column: x => x.MoveId,
+                        principalTable: "Moves",
+                        principalColumn: "MoveId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -266,14 +310,24 @@ namespace SticksAndStones.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Taglines_AuthorizedByUserId",
-                table: "Taglines",
-                column: "AuthorizedByUserId");
+                name: "IX_MoveEffect_EffectId",
+                table: "MoveEffect",
+                column: "EffectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Taglines_SuggestedByUserId",
+                name: "IX_Moves_CharacterId",
+                table: "Moves",
+                column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Taglines_AuthorizedById",
                 table: "Taglines",
-                column: "SuggestedByUserId");
+                column: "AuthorizedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Taglines_SuggestedById",
+                table: "Taglines",
+                column: "SuggestedById");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -294,13 +348,10 @@ namespace SticksAndStones.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Characters");
+                name: "Lobbies");
 
             migrationBuilder.DropTable(
-                name: "Effects");
-
-            migrationBuilder.DropTable(
-                name: "Moves");
+                name: "MoveEffect");
 
             migrationBuilder.DropTable(
                 name: "Taglines");
@@ -309,7 +360,16 @@ namespace SticksAndStones.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Effects");
+
+            migrationBuilder.DropTable(
+                name: "Moves");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Characters");
         }
     }
 }

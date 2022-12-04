@@ -7,6 +7,7 @@ namespace SticksAndStones.Models.DAL
     [Table("Lobbies")]
     public class LobbyRegistration
     {
+        [Key]
         public int LobbyId { get; set; }
 
         [Required]
@@ -15,10 +16,10 @@ namespace SticksAndStones.Models.DAL
 
         [NotMapped]
         public bool Joinable { get => GuestId == null && HostId != null; }
-        
+
         public string HostId { get; set; }
         public User HostUser { get; set; }
-        
+
         public string GuestId { get; set; }
         public User GuestUser { get; set; }
     }

@@ -105,5 +105,29 @@ namespace SticksAndStones.Models.DAL
         /// </summary>
         [InverseProperty("AuthorizedByUser")]
         public ICollection<Tagline> TaglinesAuthorized { get; set; }
+
+        [NotMapped]
+        public LobbyRegistration CurrentLobby
+        {
+            get
+            {
+                if (HostId != null)
+                {
+                    return HostLobby;
+                }
+                else if (GuestId != null)
+                {
+                    return GuestLobby;
+                }
+
+                return null;
+            }
+        }
+
+        public int? HostId { get; set; }
+        public LobbyRegistration HostLobby { get; set; }
+
+        public int? GuestId { get; set; }
+        public LobbyRegistration GuestLobby { get; set; }
     }
 }

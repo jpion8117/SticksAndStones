@@ -10,8 +10,8 @@ using SticksAndStones.Models.DAL;
 namespace SticksAndStones.Migrations
 {
     [DbContext(typeof(SiteDataContext))]
-    [Migration("20221203225617_LotsOfStufffs")]
-    partial class LotsOfStufffs
+    [Migration("20221204195434_brokeEverythingStartedClean")]
+    partial class brokeEverythingStartedClean
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,14 +46,6 @@ namespace SticksAndStones.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ba4ffbf9-ec14-4f50-8e99-46959cbdcf15",
-                            ConcurrencyStamp = "22b3ea11-f7c8-4799-ab49-dffba70f3794",
-                            Name = "SiteAdmin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -107,12 +99,10 @@ namespace SticksAndStones.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -149,12 +139,10 @@ namespace SticksAndStones.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -198,6 +186,23 @@ namespace SticksAndStones.Migrations
                     b.HasKey("EffectId");
 
                     b.ToTable("Effects");
+                });
+
+            modelBuilder.Entity("SticksAndStones.Models.DAL.LobbyRegistration", b =>
+                {
+                    b.Property<int>("LobbyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LobbyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("LobbyId");
+
+                    b.ToTable("Lobbies");
                 });
 
             modelBuilder.Entity("SticksAndStones.Models.DAL.Move", b =>
@@ -249,9 +254,6 @@ namespace SticksAndStones.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("AuthorizedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AuthorizedByUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
@@ -259,16 +261,13 @@ namespace SticksAndStones.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SuggestedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SuggestedByUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("TaglineId");
 
-                    b.HasIndex("AuthorizedByUserId");
+                    b.HasIndex("AuthorizedById");
 
-                    b.HasIndex("SuggestedByUserId");
+                    b.HasIndex("SuggestedById");
 
                     b.ToTable("Taglines");
                 });
@@ -336,10 +335,6 @@ namespace SticksAndStones.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
-
-                    b.Property<decimal>("UserNumber")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("decimal(20,0)");
 
                     b.HasKey("Id");
 
@@ -430,12 +425,12 @@ namespace SticksAndStones.Migrations
             modelBuilder.Entity("SticksAndStones.Models.DAL.Tagline", b =>
                 {
                     b.HasOne("SticksAndStones.Models.DAL.User", "AuthorizedByUser")
-                        .WithMany()
-                        .HasForeignKey("AuthorizedByUserId");
+                        .WithMany("TaglinesAuthorized")
+                        .HasForeignKey("AuthorizedById");
 
                     b.HasOne("SticksAndStones.Models.DAL.User", "SuggestedByUser")
-                        .WithMany()
-                        .HasForeignKey("SuggestedByUserId");
+                        .WithMany("TaglinesSuggested")
+                        .HasForeignKey("SuggestedById");
                 });
 #pragma warning restore 612, 618
         }

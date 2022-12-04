@@ -186,6 +186,37 @@ namespace SticksAndStones.Migrations
                     b.ToTable("Effects");
                 });
 
+            modelBuilder.Entity("SticksAndStones.Models.DAL.LobbyRegistration", b =>
+                {
+                    b.Property<int>("LobbyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("GuestId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("HostId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LobbyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("LobbyId");
+
+                    b.HasIndex("GuestId")
+                        .IsUnique()
+                        .HasFilter("[GuestId] IS NOT NULL");
+
+                    b.HasIndex("HostId")
+                        .IsUnique()
+                        .HasFilter("[HostId] IS NOT NULL");
+
+                    b.ToTable("Lobbies");
+                });
+
             modelBuilder.Entity("SticksAndStones.Models.DAL.Move", b =>
                 {
                     b.Property<int>("MoveId")
@@ -284,6 +315,12 @@ namespace SticksAndStones.Migrations
                     b.Property<int>("GamesWon")
                         .HasColumnType("int");
 
+                    b.Property<int?>("GuestId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HostId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -379,6 +416,19 @@ namespace SticksAndStones.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SticksAndStones.Models.DAL.LobbyRegistration", b =>
+                {
+                    b.HasOne("SticksAndStones.Models.DAL.User", "GuestUser")
+                        .WithOne("GuestLobby")
+                        .HasForeignKey("SticksAndStones.Models.DAL.LobbyRegistration", "GuestId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("SticksAndStones.Models.DAL.User", "HostUser")
+                        .WithOne("HostLobby")
+                        .HasForeignKey("SticksAndStones.Models.DAL.LobbyRegistration", "HostId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("SticksAndStones.Models.DAL.Move", b =>
