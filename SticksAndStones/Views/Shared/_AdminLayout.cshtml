@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "_MainLayout";
+}
+<div class="row alert-danger">
+     <div class="text-uppercase text-center col-4">
+         ADMIN AREA - 
+     </div>
+     <div class="text-uppercase text-center col-4">
+        @if (ViewBag.Title == "Admin Panel")
+        {
+            Html.Display("Welcome Admin!");
+        }
+        else
+        {
+            <a asp-controller='Home' asp-action='Index'>return to admin panel</a>
+        }
+     </div>
+     <div class="text-uppercase text-center col-4">
+          - ADMIN AREA
+     </div>
+</div>
+
+@RenderBody()
+
+<div class="row alert-danger">
+     <div class="text-uppercase text-center col-4">
+         ADMIN AREA - 
+     </div>
+     <div class="text-uppercase text-center col-4">
+        @if (ViewBag.Title == "Admin Panel")
+        {
+            Html.Display("Welcome Admin!");
+        }
+        else
+        {
+            <a asp-controller='Home' asp-action='Index'>return to admin panel</a>
+        }
+    </div>
+     <div class="text-uppercase text-center col-4">
+          - ADMIN AREA
+     </div>
+</div>
+
+    
+    @section Scripts{
+        @RenderSection("Scripts", false)
+    }
+    @section Metadata{
+        @RenderSection("Metadata", false)
+    }
+    @section AdditionalCSS {
+        @RenderSection("AdditionalCSS", false)
+    }

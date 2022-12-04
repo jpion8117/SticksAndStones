@@ -1,2 +1,65 @@
-﻿
-<h1>Admin Panel</h1>
+﻿@{
+    ViewBag.Title = "Admin Panel";
+}
+@section AdditionalCSS
+{
+    <style>
+        i {
+            font-size: 3em;
+        }
+        .admin-btn {
+            min-width:180px;
+            background-color: var(--highlight);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+        p.label {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+}
+<h1 class="card-header-pills text-uppercase text-center pt-2 pb-2" width="100%">Admin Panel</h1>
+<ul class="nav nav-pills justify-content-center flex-wrap pb-2">
+    <li class="nav-item text-center">
+        <a asp-controller="Users" asp-action="Index" class="btn btn-primary btn-group admin-btn m-1 text-center">
+            <div class="text-center text-uppercase flex-row align-items-center">
+                <i class="fa-solid fa-users text-center"></i>
+                 <p class="text-center label">Users</p>
+            </div>
+        </a>
+    </li>
+    <li class="nav-item text-center">
+        <a asp-controller="Taglines" asp-action="Index" class="btn btn-primary btn-group admin-btn m-1 text-center">
+            <div class="text-center text-uppercase">
+                <i class="fa-solid fa-quote-right text-center"></i>
+                 <p class="text-center label">Tagline Manager</p>
+            </div>
+        </a>
+    </li>
+    <li class="nav-item text-center">
+        <a asp-controller="Characters" asp-action="Index" class="btn btn-primary btn-group admin-btn m-1 text-center">
+            <div class="text-center text-uppercase">
+                <i class="fa-solid fa-hand-fist text-center"></i>
+                 <p class="text-center label">Character Info</p>
+            </div>
+        </a>
+    </li>
+    <li class="nav-item text-center">
+        <a asp-controller="Moves" asp-action="Index" class="btn btn-primary btn-group admin-btn m-1 text-center">
+            <div class="text-center text-uppercase">
+                <i class="fa-solid fa-up-down-left-right text-center"></i>
+                 <p class="text-center label">Moves</p>
+            </div>
+        </a>
+    </li>
+    <li class="nav-item text-center">
+        <a asp-controller="Effects" asp-action="Index" class="btn btn-primary btn-group admin-btn m-1 text-center">
+            <div class="text-center text-uppercase">
+                <i class="fa-solid fa-wand-sparkles text-center"></i>
+                 <p class="text-center label">Effects</p>
+            </div>
+        </a>
+    </li>
+</ul>
