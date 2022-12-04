@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SticksAndStones.Models.DAL;
 
 namespace SticksAndStones.Migrations
 {
     [DbContext(typeof(SiteDataContext))]
-    partial class SiteDataContextModelSnapshot : ModelSnapshot
+    [Migration("20221203225617_LotsOfStufffs")]
+    partial class LotsOfStufffs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +50,8 @@ namespace SticksAndStones.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "38bc7035-5fcb-452a-860d-1304f0c02bad",
-                            ConcurrencyStamp = "8421391f-e322-4995-895b-6fc5e9d97808",
+                            Id = "ba4ffbf9-ec14-4f50-8e99-46959cbdcf15",
+                            ConcurrencyStamp = "22b3ea11-f7c8-4799-ab49-dffba70f3794",
                             Name = "SiteAdmin"
                         });
                 });
@@ -334,6 +336,10 @@ namespace SticksAndStones.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<decimal>("UserNumber")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(20,0)");
 
                     b.HasKey("Id");
 

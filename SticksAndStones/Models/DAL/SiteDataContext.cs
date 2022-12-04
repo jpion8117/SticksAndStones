@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace SticksAndStones.Models.DAL
@@ -14,6 +15,11 @@ namespace SticksAndStones.Models.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityRole>()
+                .HasData(
+                    new IdentityRole("SiteAdmin")
+                );
 
             modelBuilder.Entity<MoveEffect>().HasKey(me => new { me.MoveId, me.EffectId });
 

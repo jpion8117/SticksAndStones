@@ -11,12 +11,6 @@ namespace SticksAndStones.Models.DAL
         private DateTime _bannedDate;
 
         /// <summary>
-        /// Simple numeric identifier added to the end of usernames to ensure unique names without restrincting user creativity
-        /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public ulong UserNumber { get; set; }
-
-        /// <summary>
         /// Identifies the total number of games a user has played.
         /// </summary>
         public int GamesPlayed { get; set; }
