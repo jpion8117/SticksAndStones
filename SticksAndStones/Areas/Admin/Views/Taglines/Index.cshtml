@@ -16,13 +16,16 @@
                 @Html.DisplayNameFor(model => model.Content)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.SuggestedByUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorizedByUser)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Authorized)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SuggestedById)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorizedById)
+                Auth/Deauth
             </th>
             <th></th>
         </tr>
@@ -34,16 +37,20 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.SuggestedByUser.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorizedByUser.UserName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Authorized)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SuggestedById)
+                <form method="post">
+                    <button asp-action="@(item.Authorized ? "Deauthorize" : "Authorize")" asp-route-id="@item.TaglineId">@(item.Authorized ? "Deauthorize" : "Authorize")</button>
+                </form>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorizedById)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TaglineId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.TaglineId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.TaglineId">Delete</a>
             </td>

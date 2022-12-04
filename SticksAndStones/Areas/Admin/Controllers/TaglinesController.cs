@@ -71,57 +71,6 @@ namespace SticksAndStones.Areas.Admin
             return View(tagline);
         }
 
-        // GET: Admin/Taglines/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tagline = await _context.Taglines.FindAsync(id);
-            if (tagline == null)
-            {
-                return NotFound();
-            }
-            return View(tagline);
-        }
-
-        // POST: Admin/Taglines/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TaglineId,Content,Authorized,SuggestedById,AuthorizedById")] Tagline tagline)
-        {
-            if (id != tagline.TaglineId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(tagline);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TaglineExists(tagline.TaglineId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tagline);
-        }
-
         // GET: Admin/Taglines/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -154,6 +103,38 @@ namespace SticksAndStones.Areas.Admin
         private bool TaglineExists(int id)
         {
             return _context.Taglines.Any(e => e.TaglineId == id);
+        }
+
+        [HttpPost]
+        public IActionResult Authorize(int id)
+        {
+            if (TaglineExists(id))
+            {
+                var user = _context.Users.First(u => u.UserName == User.Identity.Name);
+                var tagline = _context.Taglines.First(tl => tl.TaglineId == id);
+                tagline.Authorized = true;
+                tagline.AuthorizedById = user.Id;
+                _context.Taglines.Update(tagline);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Deauthorize(int id)
+        {
+            if (TaglineExists(id))
+            {
+                var tagline = _context.Taglines.First(tl => tl.TaglineId == id);
+                tagline.Authorized = false;
+                tagline.AuthorizedById = null;
+                tagline.AuthorizedByUser = null;
+                _context.Taglines.Update(tagline);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
