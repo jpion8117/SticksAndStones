@@ -31,11 +31,12 @@ namespace SticksAndStones.Controllers
             {
                 Random r = new Random();
                 var tagline = _siteData.Taglines.Skip(r.Next(0, _siteData.Taglines.Count())).FirstOrDefault();
-                ViewBag.Tagline = tagline;
+                ViewBag.Tagline = $"{tagline.Content} - {tagline.SuggestedByUser.UserName}";
             }
 
             return View();
         }
+        [Route("GameInfo")]
         public IActionResult About()
         {
             return View();

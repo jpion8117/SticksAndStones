@@ -14,22 +14,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
+                <input asp-for="Content" class="form-control" style="height:200px" />
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check" style="display:none;">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Authorized" /> @Html.DisplayNameFor(model => model.Authorized)
+                    <input class="form-check-input" asp-for="Authorized" checked /> @Html.DisplayNameFor(model => model.Authorized)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <label asp-for="SuggestedById" class="control-label"></label>
-                <input asp-for="SuggestedById" class="form-control" />
+                <input asp-for="SuggestedById" class="form-control" value="@ViewBag.UserId" />
                 <span asp-validation-for="SuggestedById" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <label asp-for="AuthorizedById" class="control-label"></label>
-                <input asp-for="AuthorizedById" class="form-control" />
+                <input asp-for="AuthorizedById" class="form-control" value="@ViewBag.UserId" />
                 <span asp-validation-for="AuthorizedById" class="text-danger"></span>
             </div>
             <div class="form-group">

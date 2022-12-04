@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,9 @@ namespace SticksAndStones.Areas.Admin
         // GET: Admin/Taglines/Create
         public IActionResult Create()
         {
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            ViewBag.UserId = user.Id;
+
             return View();
         }
 
