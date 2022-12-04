@@ -15,7 +15,7 @@ namespace SticksAndStones.Models.GameComponents
         private uint _roundNumber;
         private uint _turnNumber;
         private uint _partySize;
-        private List<IProcessable> _processables;
+        private List<IProcessable> _processables = new List<IProcessable>();
         private bool _processablesSorted = false;
 
         private static List<Lobby> _activeLobbies = new List<Lobby>();

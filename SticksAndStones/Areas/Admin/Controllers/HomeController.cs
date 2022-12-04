@@ -11,9 +11,9 @@ using SticksAndStones.Models.DAL;
 namespace SticksAndStones.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "SiteAdmin")]
     public class HomeController : Controller
     {
+        [Authorize(Roles = "SiteAdmin")]
         public IActionResult Index()
         {
             return View();

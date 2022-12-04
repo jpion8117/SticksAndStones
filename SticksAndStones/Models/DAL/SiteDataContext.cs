@@ -16,12 +16,8 @@ namespace SticksAndStones.Models.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<IdentityRole>()
-                .HasData(
-                    new IdentityRole("SiteAdmin")
-                );
-
-            modelBuilder.Entity<MoveEffect>().HasKey(me => new { me.MoveId, me.EffectId });
+            modelBuilder.Entity<MoveEffect>()
+                .HasKey(me => new { me.MoveId, me.EffectId });
 
             modelBuilder.Entity<MoveEffect>()
                 .HasOne(me => me.Move)

@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SticksAndStones.Models.DAL;
 using SticksAndStones.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SticksAndStones.Areas.Admin
 {
     [Area("Admin")]
+    [Authorize(Roles = "SiteAdmin")]
     public class CharactersController : Controller
     {
         private readonly SiteDataContext _context;
