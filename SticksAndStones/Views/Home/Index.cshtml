@@ -12,40 +12,43 @@
 @section AdditionalCSS {
     <style>
         body {
-            background-color: var(--primary-background);
+            background-image: url("images/homeBack.svg");
+            background-attachment: fixed;
+            background-repeat:no-repeat;
+            background-size: cover;
             height: 100%;
             overflow:hidden;
-        }
-        footer {
-            position: fixed!important;
-            background-color: var(--secondary-background);
         }
         .border-top {
             border-top: 0px !important;
         }
     </style>
 }
-<div class="row home">
-    <header class="col-12">
-        <h1 class="mark">Sticks &amp; Stones</h1>
-    </header>
-</div>
-<div class="row home">
+<div class="row home mt-5">
     <div class="col-7 align-content-center text-center">
-        <h2>Tagline Here...</h2>
         <img src="~/images/logo.svg" class="img-fluid" style="width:100%; max-width:600px" alt="@altText["Logo"]" title="@altText["Logo"]" />
+        <h2 class="text-center text-uppercase text-wrap pl-2 pr-2 pt-2">@ViewBag.Tagline</h2>
     </div>
     <ul class="col-5 nav nav-home">
         <li>
             <a asp-action="Index" asp-controller="Play" class="btn btn-play btn-home btn-light text-center mt-2 pl-3 pr-3" 
-                title="@altText["PlayGame"]">Play!</a>
+                title="@altText["PlayGame"]">Start!</a>
         </li>
         <li><hr /></li>
         <li>
-            <a asp-action="Tutorial" asp-controller="Play" class="text-center btn btn-home btn-light" title="@altText["Tutorial"]">Play Tutorial</a>
+            <a asp-action="Tutorial" asp-controller="Play" class="text-center btn btn-home btn-light mt-2" title="@altText["Tutorial"]">Play Tutorial</a>
         </li>
         <li>
-            <a asp-action="Characters" asp-controller="GameInfo" class="text-center btn btn-home btn-light" title="@altText["CharacterInfo"]">Warrior Info</a>
+            <a asp-action="Characters" asp-controller="GameInfo" class="text-center btn btn-home btn-light mt-2" title="@altText["CharacterInfo"]">Fighter Info</a>
+        </li>
+        <li>
+            <a asp-action="LeaderBoard" asp-controller="GameInfo" class="text-center btn btn-home btn-light mt-2" title="@altText["CharacterInfo"]">Leader Board</a>
+        </li>
+        <li>
+            <a asp-action="SubmitTagline" asp-controller="Taglines" class="text-center btn btn-home btn-light mt-2" title="@altText["CharacterInfo"]">Submit Tagline</a>
+        </li>
+        <li>
+            <a asp-action="About" asp-controller="Home" class="text-center btn btn-home btn-light mt-2" title="@altText["CharacterInfo"]">About S&S</a>
         </li>
     </ul>
 </div>

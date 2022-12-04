@@ -6,20 +6,34 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using SticksAndStones.Models.DAL;
 
 namespace SticksAndStones.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SiteDataContext _siteData;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, SiteDataContext siteData)
         {
             _logger = logger;
+            _siteData = siteData;
         }
 
         public IActionResult Index()
         {
+            if (!_siteData.Taglines.Where(tl => tl.Authorized).Any())
+            {
+                ViewBag.tagLine = "Sticks and stones will break my bones and these words will hurt you too...";
+            }
+            else
+            {
+                Random r = new Random();
+                var tagline = _siteData.Taglines.Skip(r.Next(0, _siteData.Taglines.Count())).FirstOrDefault();
+                ViewBag.Tagline = tagline;
+            }
+
             return View();
         }
         public IActionResult About()
