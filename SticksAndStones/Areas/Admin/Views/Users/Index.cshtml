@@ -1,0 +1,73 @@
+﻿@model IEnumerable<SticksAndStones.Models.DAL.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GamesPlayed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GamesWon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GamesLost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WinRate)
+            </th>
+            <th>
+                @Html.Display("Banned?")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GamesPlayed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GamesWon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GamesLost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WinRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Banned)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                @if(item.Banned)
+                {
+                    <a asp-action="Unbanhammer" asp-route-id="@item.Id" title="Restore user's online play privilages">Unban User</a><span> | </span>
+                }
+                else
+                {
+                    <a asp-action="Banhammer" asp-route-id="@item.Id" title="Ban a user from online play for any length of time with or without a custom message">Ban User</a><span> | </span> 
+                    <a asp-action="DropTheBanhammer" asp-route-id="@item.Id" title="Ban a user from online play for 1 day with a generic message">Quick Ban</a><span> | </span>      
+                }
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

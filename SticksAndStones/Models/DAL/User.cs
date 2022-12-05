@@ -59,6 +59,7 @@ namespace SticksAndStones.Models.DAL
                 {
                     _banned = false;
                     _bannedDate = DateTime.Now;
+                    BanMessage = "";
                 }
    
                 return _banned;
@@ -69,11 +70,13 @@ namespace SticksAndStones.Models.DAL
                 {
                     _banned = true;
                     _bannedDate = DateTime.Now.AddDays(1);
+                    BanMessage = "Temporary ban in place for 1 day.";
                 }
                 else //unban user
                 {
                     _banned = false;
                     _bannedDate = DateTime.Now;
+                    BanMessage = "";
                 }
             }
         }
@@ -82,7 +85,8 @@ namespace SticksAndStones.Models.DAL
         /// DateTime when a user's ban will expire. Upon setting property will also set _banned to 
         /// true as long as the date being set is in the future
         /// </summary>
-        public DateTime BanDate { 
+        public DateTime BanDate 
+        { 
             get => _bannedDate; 
             set
             {
@@ -93,6 +97,11 @@ namespace SticksAndStones.Models.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// Indicates the reason for a player's ban
+        /// </summary>
+        public string BanMessage { get; set; }
 
         /// <summary>
         /// All taglines suggested by this user
@@ -129,5 +138,34 @@ namespace SticksAndStones.Models.DAL
 
         public int? GuestId { get; set; }
         public virtual LobbyRegistration GuestLobby { get; set; }
+
+        public void DropBanhammer(DateTime? banExpires = null, string message = null)
+        {
+            //quick default 1 day ban
+            if (banExpires == null && message == null)
+            {
+                Banned = true;
+            }
+            //custom ban date and message set
+            else if (banExpires != null && message != null)
+            {
+                _banned = true;
+                _bannedDate = banExpires.Value;
+                BanMessage = message;
+            }
+            //custom ban date no message
+            else if (banExpires != null)
+            {
+                _banned = true;
+                _bannedDate = banExpires.Value;
+                BanMessage = $"You have been banned for {(_bannedDate - DateTime.Now).TotalDays} days.";
+            }
+            //custom message standard ban date
+            else
+            {
+                Banned = true;
+                BanMessage = message;
+            }
+        }
     }
 }
