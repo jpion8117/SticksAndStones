@@ -30,7 +30,7 @@ namespace SticksAndStones.Controllers
             else
             {
                 Random r = new Random();
-                var tagline = _siteData.Taglines.Skip(r.Next(0, _siteData.Taglines.Count())).FirstOrDefault();
+                var tagline = _siteData.Taglines.Where(tl => tl.Authorized).Skip(r.Next(0, _siteData.Taglines.Where(tl => tl.Authorized).Count())).FirstOrDefault();
                 ViewBag.Tagline = $"{tagline.Content} - {tagline.SuggestedByUser.UserName}";
             }
 
