@@ -1,4 +1,59 @@
-﻿<h1>Submit a tagline for the homepage!</h1>
-<p>
-    Would you like to contribute a little something to this site??
-</p>
+﻿@model SticksAndStones.Models.DAL.Tagline
+
+@{
+    ViewData["Title"] = "Submit a tagline.";
+}
+
+<h1>Submit a tagline!</h1>
+
+<h4>
+    Got an idea for a homepage tagline? We'd love to hear it! Pending approval it might 
+    even be featured on the homescreen
+</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SubmitTagline">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check" style="display:none;">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Authorized" /> @Html.DisplayNameFor(model => model.Authorized)
+                </label>
+            </div>
+            <div class="form-group" style="display:none;">
+                <label asp-for="SuggestedById" class="control-label"></label>
+                <input asp-for="SuggestedById" class="form-control" value="@ViewBag.UserId" />
+                <span asp-validation-for="SuggestedById" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none;">
+                <label asp-for="AuthorizedById" class="control-label"></label>
+                <input asp-for="AuthorizedById" class="form-control" value="" />
+                <span asp-validation-for="AuthorizedById" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h5>Rules:</h5>
+        <ol>
+            <li>No profanity</li>
+            <li>Keep it lighthearted</li>
+            <li>Short sweet and to the point.</li>
+        </ol>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
