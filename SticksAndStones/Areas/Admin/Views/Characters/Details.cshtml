@@ -22,6 +22,18 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Flavortext)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Moves)
+        </dt>
+        <dd class = "col-sm-10">
+            <dl>
+                @foreach (var move in Model.Moves)
+                {
+                    <dt><a asp-controller="Moves" asp-action="Details" asp-route-id="@move.MoveId">@move.Name</a></dt>
+                    <dd>@move.Flavortext</dd>
+                }
+            </dl>
+        </dd>
     </dl>
 </div>
 <div>

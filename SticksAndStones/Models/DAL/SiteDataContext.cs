@@ -10,6 +10,7 @@ namespace SticksAndStones.Models.DAL
         public DbSet<Tagline> Taglines { get; set; }
         public DbSet<Move> Moves { get; set; }
         public DbSet<Effect> Effects { get; set; }
+        public DbSet<MoveEffect> MoveEffects { get; set; }
         public DbSet<LobbyRegistration> Lobbies { get; set; }
         public SiteDataContext(DbContextOptions<SiteDataContext> options) : base(options) { }
 

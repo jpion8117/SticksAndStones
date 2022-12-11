@@ -14,31 +14,25 @@ namespace SticksAndStones.Controllers
         {
             _playerData = context;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(SelectLobby));
+            return View("ComingSoon");
         }
-        [HttpPost]
-        public IActionResult Index(int userID)
-        {
-            User u = _playerData.Users.Find(userID);
-            return View(u);
-        }
-       
-        public IActionResult SelectLobby(int userID)
-        {
-            //get the user profile from the database
-            User user = _playerData.Users.Find(userID);
 
-            return View(user);
-        }
-        [HttpPost]
-        public IActionResult SticksAndStones(int lobbyID)
+        [HttpGet]
+        public IActionResult Tutorial()
         {
-            Lobby lobby = Lobby.GetLobbyByID(lobbyID);
-            return View(lobby);
+            return View("ComingSoon");
         }
+
+         /*********************************************************
+         *                                                        *
+         *               Game Interaction Actions                 *
+         *                                                        *
+         *********************************************************/
+        
         [HttpPost]
         public JsonResult GetUserInfo(int id)
         {

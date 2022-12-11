@@ -50,7 +50,9 @@ namespace SticksAndStones.Areas.Admin
         // GET: Admin/Moves/Create
         public IActionResult Create()
         {
-            ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId");
+            //ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId");
+            ViewData["Characters"] = _context.Characters.ToList();
+            ViewData["Effects"] = _context.Effects.ToList();
             return View();
         }
 
@@ -59,32 +61,48 @@ namespace SticksAndStones.Areas.Admin
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MoveId,Name,Flavortext,CharacterId")] Move move)
+        public async Task<IActionResult> Create([Bind("MoveId,Name,Flavortext,CharacterId")] Move move, [Bind("effects")] int[] effects)
         {
             if (ModelState.IsValid)
             {
+                foreach (var effect in effects)
+                {
+                    var moveEffect = new MoveEffect
+                    {
+                        Move = move,
+                        MoveId = move.MoveId,
+                        EffectId = effect,
+                        Effect = _context.Effects.First(e => e.EffectId == effect)
+                    };
+                    _context.MoveEffects.Add(moveEffect);
+                }
+
                 _context.Add(move);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId", move.CharacterId);
+            //ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId", move.CharacterId);
+            ViewData["Characters"] = _context.Characters.ToList();
+            ViewData["Effects"] = _context.Effects.ToList();
             return View(move);
         }
 
         // GET: Admin/Moves/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var move = await _context.Moves.FindAsync(id);
+            var move = _context.Moves.Find(id);
             if (move == null)
             {
                 return NotFound();
             }
-            ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId", move.CharacterId);
+            //ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId", move.CharacterId);
+            ViewData["Characters"] = _context.Characters.ToList();
+            ViewData["Effects"] = _context.Effects.ToList();
             return View(move);
         }
 
@@ -93,7 +111,7 @@ namespace SticksAndStones.Areas.Admin
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MoveId,Name,Flavortext,CharacterId")] Move move)
+        public async Task<IActionResult> Edit(int id, [Bind("MoveId,Name,Flavortext,CharacterId")] Move move, [Bind("effectIds")] int[] effectIds)
         {
             if (id != move.MoveId)
             {
@@ -104,6 +122,34 @@ namespace SticksAndStones.Areas.Admin
             {
                 try
                 {
+                    var moveEffects = _context.MoveEffects.Where(me => me.MoveId == id).ToList();
+                 
+                    //check for effects that need to be added
+                    foreach (int effectId in effectIds)
+                    {
+                        if (!move.ContainsEffect(effectId, moveEffects))
+                        {
+                            var moveEffect = new MoveEffect
+                            {
+                                Move = move,
+                                MoveId = move.MoveId,
+                                EffectId = effectId,
+                                Effect = _context.Effects.First(e => e.EffectId == effectId)
+                            };
+                            _context.MoveEffects.Add(moveEffect);
+                        }
+                    }
+
+                    //check for effects that need to be removed
+                    foreach (var effect in moveEffects)
+                    {
+                        if (!effectIds.Contains(effect.EffectId))
+                        {
+                            var removeEffect = _context.MoveEffects.Find(move.MoveId, effect.EffectId);
+                            _context.MoveEffects.Remove(removeEffect);
+                        }
+                    }
+
                     _context.Update(move);
                     await _context.SaveChangesAsync();
                 }
@@ -120,7 +166,9 @@ namespace SticksAndStones.Areas.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId", move.CharacterId);
+            //ViewData["CharacterId"] = new SelectList(_context.Characters, "CharacterId", "CharacterId", move.CharacterId);
+            ViewData["Characters"] = _context.Characters.ToList();
+            ViewData["Effects"] = _context.Effects.ToList();
             return View(move);
         }
 

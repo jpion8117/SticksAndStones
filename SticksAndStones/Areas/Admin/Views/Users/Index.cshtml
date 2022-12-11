@@ -28,7 +28,10 @@
                 @Html.DisplayNameFor(model => model.WinRate)
             </th>
             <th>
-                @Html.Display("Banned?")
+                Banned?
+            </th>
+            <th>
+                Admin?
             </th>
             <th></th>
         </tr>
@@ -66,6 +69,10 @@
                     <a asp-action="DropTheBanhammer" asp-route-id="@item.Id" title="Ban a user from online play for 1 day with a generic message">Quick Ban</a><span> | </span>      
                 }
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+            <td>
+                <a asp-action="OpUser" asp-route-userid="@item.Id">Op User</a> | 
+                <a asp-action="DeopUser" asp-route-userid="@item.Id">Deop User</a>
             </td>
         </tr>
 }

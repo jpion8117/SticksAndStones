@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SticksAndStones.Models.DAL;
@@ -152,6 +153,33 @@ namespace SticksAndStones.Areas.Admin.Controllers
             };
 
             return View(banhammer);
+        }
+
+        public IActionResult OpUser(string userId)
+        {
+            var adminRole = _siteData.Roles.First(r => r.Name == "SiteAdmin");
+
+            var newAdmin = new IdentityUserRole<string>
+            {
+                UserId = userId,
+                RoleId = adminRole.Id,
+            };
+
+            _siteData.UserRoles.Add(newAdmin);
+            _siteData.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public IActionResult DeopUser(string userId)
+        {
+            var adminRole = _siteData.Roles.First(r => r.Name == "SiteAdmin");
+
+            var adminToRemove = _siteData.UserRoles.Find(userId, adminRole.Id);
+
+            _siteData.UserRoles.Remove(adminToRemove);
+            _siteData.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

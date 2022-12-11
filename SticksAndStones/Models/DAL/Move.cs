@@ -10,5 +10,25 @@ namespace SticksAndStones.Models.DAL
         public int? CharacterId { get; set; }
         public virtual Character Character { get; set; }
         public virtual ICollection<MoveEffect> MoveEffects { get; set; }
+        public bool ContainsEffect(int effectID)
+        {
+            foreach (var effect in MoveEffects)
+            {
+                if (effect.EffectId == effectID)
+                    return true;
+            }
+
+            return false;
+        }
+        public bool ContainsEffect(int effectID, List<MoveEffect> moveEffects)
+        {
+            foreach (var effect in moveEffects)
+            {
+                if (effect.EffectId == effectID)
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

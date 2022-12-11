@@ -20,13 +20,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="Flavortext" class="control-label"></label>
-                <input asp-for="Flavortext" class="form-control" />
+                <textarea asp-for="Flavortext" class="form-control"></textarea>
                 <span asp-validation-for="Flavortext" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharacterId" class="control-label"></label>
-                <select asp-for="CharacterId" class="form-control" asp-items="ViewBag.CharacterId"></select>
+                <select asp-for="CharacterId" class="form-control">
+                    <!-- I wasn't sure how to display the name with a data list so I opted for this method for a cleaner front end look -->
+                    @foreach (SticksAndStones.Models.DAL.Character character in ViewBag.Characters)
+                    {
+                        <option value="@character.CharacterId">@character.Name</option>
+                    }
+                </select>
                 <span asp-validation-for="CharacterId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <h3>Move Effects</h3>
+                @foreach (SticksAndStones.Models.DAL.Effect effect in ViewBag.Effects)
+                {
+                    <label for="effectIds">@effect.Name</label>
+                    <input type="checkbox" name="effectIds" value="@effect.EffectId" @(Model.ContainsEffect(effect.EffectId) ? "checked" : "") />
+                    <br />
+                }
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

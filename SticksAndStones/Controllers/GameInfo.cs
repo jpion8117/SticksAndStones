@@ -38,7 +38,7 @@ namespace SticksAndStones.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_filter.ContainsProfanity(tagline.Content))
+                if (_filter.ContainsProfanity(tagline.Content.ToLower()))
                 {
                     ModelState.AddModelError("Content", "Swearing is not aloud, please revise your submition.");
                     return View(tagline);
@@ -51,5 +51,11 @@ namespace SticksAndStones.Controllers
 
             return View(tagline);
         }
+
+        public IActionResult ViewTaglines()
+        {
+            return View();
+        }
+
     }
 }
