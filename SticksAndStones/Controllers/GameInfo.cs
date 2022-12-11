@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SticksAndStones.Models.DAL;
+using SticksAndStones.Models.ViewModels;
 using System.Linq;
 
 namespace SticksAndStones.Controllers
@@ -57,5 +58,39 @@ namespace SticksAndStones.Controllers
             return View();
         }
 
+        public IActionResult CharacterData()
+        {
+            var viewModel = new FighterInfoViewModel
+            {
+                CharacterList = _siteData.Characters.ToList(),
+                Effects = _siteData.Effects.ToList(),
+                Moves = _siteData.Moves.ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        public IActionResult MoveDetail(int id)
+        {
+            var move = _siteData.Moves.Find(id);
+
+            if (move == null)
+                return NoContent();
+
+            return View(move);
+        }
+
+        public IActionResult EffectDetail(int effectId, int returnMoveId)
+        {
+            var effect = _siteData.Effects.Find(effectId);
+
+            if (effect == null)
+                return NoContent();
+
+            ViewBag.ReturnMoveId = returnMoveId;
+            ViewBag.ReturnMoveName = _siteData.Moves.Find(returnMoveId).Name;
+
+            return View(effect);
+        }
     }
 }

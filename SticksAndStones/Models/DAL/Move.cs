@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SticksAndStones.Models.DAL
 {
@@ -9,6 +11,7 @@ namespace SticksAndStones.Models.DAL
         public string Flavortext { get; set; }
         public int? CharacterId { get; set; }
         public virtual Character Character { get; set; }
+        [DisplayName("Effects")]
         public virtual ICollection<MoveEffect> MoveEffects { get; set; }
         public bool ContainsEffect(int effectID)
         {

@@ -8,9 +8,9 @@ namespace SticksAndStones.Models.ViewModels
         public List<Character> CharacterList { get; set; }
         public List<Move> Moves { get; set; }
         public List<Effect> Effects { get; set; }
-        public List<Move> GetCharacterMoves(Character character)
+        public ICollection<Move> GetCharacterMoves(Character character)
         {
-            return character.Moves as List<Move>;
+            return character.Moves;
         }
     }
 }

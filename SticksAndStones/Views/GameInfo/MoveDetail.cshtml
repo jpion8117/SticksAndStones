@@ -28,10 +28,22 @@
         <dd class = "col-sm-10">
             @Model.Character.Name
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MoveEffects)
+        </dt>
+        <dd class = "col-sm-10">
+            <dl>
+                @foreach (var effect in Model.MoveEffects)
+                {
+                    <dt><a asp-controller="GameInfo" asp-action="EffectDetail" asp-route-effectId="@effect.EffectId"
+                        asp-route-returnMoveId="@Model.MoveId">@effect.Effect.Name</a></dt>
+                    <dd>@effect.Effect.Flavortext</dd>
+                }
+            </dl>
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.MoveId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="CharacterData">Back to List</a>
 </div>
 

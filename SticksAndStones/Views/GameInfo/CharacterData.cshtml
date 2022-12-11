@@ -5,7 +5,7 @@
 }
 
 
-<h1>Fighter Dictionary</h1> 
+<h1>Fighter Directory</h1> 
 <table class="table">
     <thead>
         <tr>
@@ -31,16 +31,13 @@
             </td>
             <td>
                 <ul>
-                    @foreach (var character in Model.CharacterList)
+                    @foreach(var move in Model.GetCharacterMoves(item))
                     {
-                        foreach (var move in Model.GetCharacterMoves(character))
-                        {
-                            <li>
-                                <a asp-action="MoveDetails" asp-controller="GameInfo" asp-route-id="@move.MoveId" title="@move.Flavortext">
-                                    @move.Name
-                                </a>
-                            </li>
-                        }
+                        <li>
+                            <a asp-action="MoveDetail" asp-route-id="@move.MoveId" title="@move.Flavortext">
+                                @move.Name
+                            </a>
+                        </li>
                     }
                 </ul>
             </td>

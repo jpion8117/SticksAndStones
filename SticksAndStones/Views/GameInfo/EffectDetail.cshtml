@@ -1,10 +1,10 @@
 ﻿@model SticksAndStones.Models.DAL.Effect
 
 @{
-    ViewData["Title"] = $"{Model.Name} Effect Details";
+    ViewData["Title"] = "Details";
 }
 
-<h1>@Model.Name Details</h1>
+<h1>Details</h1>
 
 <div>
     <h4>Effect</h4>
@@ -25,6 +25,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.EffectId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="MoveDetail" asp-route-id="@ViewBag.ReturnMoveId">Back to @ViewBag.ReturnMoveName Details</a>
 </div>
