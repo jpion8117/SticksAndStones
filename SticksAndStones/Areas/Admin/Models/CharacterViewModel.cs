@@ -25,7 +25,8 @@ namespace SticksAndStones.Areas.Admin.Models
         /// <param name="character">Character whoes moves you want to retrieve</param>
         public ICollection<Move> GetMoves(Character character)
         {
-            return Moves.Where(x => x.CharacterId == character.CharacterId).ToList();
+            var returns = Moves.Where<Move>(x => x.CharacterId == character.CharacterId).ToList();
+            return returns;
         }
     }
 }

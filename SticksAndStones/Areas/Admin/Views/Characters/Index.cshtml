@@ -35,16 +35,13 @@
             </td>
             <td>
                 <ul>
-                    @foreach (var character in Model.Characters)
+                    @foreach(var move in Model.GetMoves(item))
                     {
-                        foreach (var move in Model.GetMoves(character))
-                        {
-                            <li>
-                                <a asp-action="Details" asp-controller="Moves" asp-route-id="@move.MoveId" title="@move.Flavortext">
-                                    @move.Name
-                                </a>
-                            </li>
-                        }
+                        <li>
+                            <a asp-action="Details" asp-controller="Moves" asp-route-id="@move.MoveId" title="@move.Flavortext">
+                                @move.Name
+                            </a>
+                        </li>
                     }
                 </ul>
             </td>
