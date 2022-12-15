@@ -100,7 +100,7 @@ namespace SticksAndStones.Models.GameComponents
             //if this is a new lobby GuestId will be null
             if (registrationTicket.GuestId == null)
             {
-                _aParty = new Party(registrationTicket.HostUser, characters.ToArray());
+                _aParty = new Party(registrationTicket.Host, characters.ToArray());
                 _activeParty = _aParty;
                 _activeLobbies.Add(this);
                 return;
@@ -108,7 +108,7 @@ namespace SticksAndStones.Models.GameComponents
 
             //if this is a guest joining the lobby will be modified
             var lobby = GetLobbyByID(registrationTicket.LobbyId);
-            lobby._bParty = new Party(registrationTicket.GuestUser, characters.ToArray());
+            lobby._bParty = new Party(registrationTicket.Guest, characters.ToArray());
             lobby._inactiveParty = _bParty;
         }
 

@@ -37,26 +37,26 @@ namespace SticksAndStones.Models.DAL
                 .HasForeignKey(me => me.EffectId);
 
             modelBuilder.Entity<LobbyRegistration>()
-                .HasOne(lr => lr.HostUser)
+                .HasOne(lr => lr.Host)
                 .WithOne(u => u.HostLobby)
                 .HasForeignKey<User>(u => u.HostId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.HostLobby)
-                .WithOne(lr => lr.HostUser)
+                .WithOne(lr => lr.Host)
                 .HasForeignKey<LobbyRegistration>(lr => lr.HostId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<LobbyRegistration>()
-                .HasOne(lr => lr.GuestUser)
+                .HasOne(lr => lr.Guest)
                 .WithOne(u => u.GuestLobby)
                 .HasForeignKey<User>(u => u.GuestId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.GuestLobby)
-                .WithOne(lr => lr.GuestUser)
+                .WithOne(lr => lr.Guest)
                 .HasForeignKey<LobbyRegistration>(lr => lr.GuestId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
