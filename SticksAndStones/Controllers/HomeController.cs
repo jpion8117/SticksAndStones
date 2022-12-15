@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using SticksAndStones.Models.DAL;
+using Microsoft.AspNetCore.Http;
 
 namespace SticksAndStones.Controllers
 {
@@ -34,7 +35,13 @@ namespace SticksAndStones.Controllers
                 ViewBag.Tagline = $"{tagline.Content} - {tagline.SuggestedByUser.UserName}";
             }
 
-            return View();
+            if (HttpContext.Session.GetString("RedirectHome") == null)
+            {
+                HttpContext.Session.SetString("RedirectHome", "true");
+                return View();
+            }
+
+            return View("HomePage");
         }
         [Route("GameInfo")]
         public IActionResult About()

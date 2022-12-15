@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Views\Home\Index.backup" />
     <Content Include="Views\Shared\_Layout_Backup_2022.11.20.cshtml.backup" />
   </ItemGroup>
 

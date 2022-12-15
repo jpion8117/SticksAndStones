@@ -36,6 +36,8 @@ namespace SticksAndStones
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<SiteDataContext>()
                 .AddDefaultTokenProviders();
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.Configure<IdentityOptions>(options =>
@@ -83,6 +85,8 @@ namespace SticksAndStones
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
