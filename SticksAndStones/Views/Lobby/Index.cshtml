@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1 class="text-uppercase text-center text-primary">Please Make a Selection...</h1>
+<div class="row">
+    <div class="col-lg-2"><!-- Spacer for large devices --></div>
+
+    <div class="col-lg-4 col-md-6">
+        <a asp-action="Index" asp-controller="Play">
+            <div class="card">
+                <div class="card-header text-center" style="font-size:2em">
+                    <i class="fa-regular fa-square-plus"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h3 class="card-title text-uppercase">Start</h3>
+                    <h4 class="card-subtitle text-uppercase">new lobby</h4>
+                    <p class="card-text text-muted">Click here to start a new public or private lobby</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <a asp-action="Index" asp-controller="Play">
+            <div class="card">
+                <div class="card-header text-center" style="font-size:2em">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h3 class="card-title text-uppercase">Join</h3>
+                    <h4 class="card-subtitle text-uppercase">An existing lobby</h4>
+                    <p class="card-text text-muted">
+                        Click here to browse open public lobbies or join a private
+                        lobby using a join code
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-lg-2"><!-- Spacer for large devices --></div>
+</div>

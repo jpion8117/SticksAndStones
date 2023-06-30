@@ -39,8 +39,16 @@ namespace SticksAndStones.Controllers
             User user = _playerData.Users.Find(id);
             return Json(user);
         }
+        /// <summary>
+        /// Client systems must periodically check in with the server to ensure they are still 
+        /// connected to the game. This method takes the lobbyID of the lobby the player is 
+        /// checking into and notes the time of the check in. It also verifies the opponent 
+        /// has not disconnected. Finally, informs a player if they have been disconnected.
+        /// </summary>
+        /// <param name="lobbyID">Id of the lobby to be pinged</param>
+        /// <returns>Json containing information about the state of the lobby</returns>
         [HttpPost]
-        public JsonResult CheckIn(int lobbyID)
+        public JsonResult PingLobby(int lobbyID)
         {
             Lobby lobby = Lobby.GetLobbyByID(lobbyID);
             return Json(lobby);
