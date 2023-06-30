@@ -30,6 +30,12 @@ namespace SticksAndStones.Models.DAL
         public bool Inactive { get; set; }
 
         /// <summary>
+        /// Indicates a lobby that has been set to private by the host. A private lobby can only be joined
+        /// via a link shared by the host player and will not show up in the lobby search!
+        /// </summary>
+        public bool Private { get; set; }
+
+        /// <summary>
         /// Player hosting this lobby (Id)
         /// </summary>
         public string HostId { get; set; }
